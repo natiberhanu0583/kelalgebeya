@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Seller {
+  id                 String    @id @default(cuid())
+  name               String
+  businessName       String
+  email              String    @unique
+  phone              String
+  whatsapp           String?
+  city               String    // e.g. 'ADDIS_ABABA', 'BALE_ROBE', 'HAWASSA'
+  rentAmount         Float     @default(1500.0) // 1,500 ETB
+  dueDate            String    // ISO date string
+  subscriptionStatus String    @default("active") // 'active' | 'due_soon' | 'expired' | 'blocked'
+  joinedDate         DateTime  @default(now())
+  products           Product[]
+  orders             Order[]   @relation("SellerOrders")
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  nameAm        String?
+  category      String   // e.g. 'electronics', 'fashion', 'vehicles'
+  price         Float    // Price in ETB (ብር)
+  originalPrice Float?
+  rating        Float    @default(5.0)
+  reviewsCount  Int      @default(1)
+  image         String
+  description   String
+  descriptionAm String?
+  features      String[]
+  inStock       Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  city          String   // e.g. 'ADDIS_ABABA', 'BALE_ROBE'
+  seller        Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId      String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Category {
+  id        String   @id
+  nameAm    String
+  nameEn    String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  id        String   @id @default("default")
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  fullName      String
+  phone         String
+  email         String?
+  city          String
+  address       String
+  paymentMethod String   // 'telebirr' | 'chapa' | 'cbeBirr' | 'cashOnDelivery'
+  totalAmount   Float
+  itemsJson     String   @db.Text // JSON representation of order items
+  sellers       Seller[] @relation("SellerOrders")
+  status        String   @default("pending") // 'pending' | 'completed' | 'cancelled'
+  createdAt     DateTime @default(now())
+}
