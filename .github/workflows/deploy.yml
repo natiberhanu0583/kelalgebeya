@@ -36,3 +36,5 @@ jobs:
           security: loose
           local-dir: ./out/
           server-dir: public_html/
+          dangerous-clean-slate: true
+
