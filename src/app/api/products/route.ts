@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { mockProducts } from '../../../data/mockProducts';
 
+export const dynamic = 'force-static';
+
 // API Route for fetching and creating products
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

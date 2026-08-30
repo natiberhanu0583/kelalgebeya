@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
     ? (lang === 'am' ? siteSettings.announcementAm : siteSettings.announcementEn)
     : getTranslation(lang, 'announcement');
 
-  const categories: { id: CategoryType; key: any }[] = [
+  const categories: { id: CategoryType; key: string }[] = [
     { id: 'all', key: 'allCategories' },
     { id: 'electronics', key: 'electronics' },
     { id: 'fashion', key: 'fashion' },
