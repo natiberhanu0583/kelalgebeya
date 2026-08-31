@@ -233,8 +233,26 @@ export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
 
-  // Active Seller Persona for Seller Studio (default to Seller 1 - Tadesse Alemu)
-  const currentSeller = sellers[0];
+  // Active Seller Persona for Seller Studio (matches logged in seller or default)
+  const currentSeller = useMemo(() => {
+    if (authUser && authUser.role === 'seller') {
+      const match = sellers.find((s) => s.email.toLowerCase() === authUser.email.toLowerCase());
+      if (match) return match;
+      return {
+        id: `seller-${authUser.email}`,
+        name: authUser.name,
+        businessName: authUser.name,
+        city: 'ADDIS_ABABA' as EthiopianCityCode,
+        phone: '+251911223344',
+        email: authUser.email,
+        joinedDate: '2026-08-31',
+        subscriptionStatus: 'active' as const,
+        rentAmount: 1500,
+        dueDate: '2026-09-30',
+      };
+    }
+    return sellers[0] || initialSellers[0];
+  }, [authUser, sellers]);
 
   // Get list of blocked seller IDs
   const blockedSellerIds = useMemo(() => {
