@@ -30,17 +30,50 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onToggleBlockSeller,
   onRecordPayment,
 }) => {
+  const safeSellers = Array.isArray(sellers) ? sellers : [];
+  const safeCategories: CategoryItem[] = Array.isArray(siteSettings?.categories) && siteSettings.categories.length > 0
+    ? siteSettings.categories
+    : [
+        { id: 'electronics', nameAm: 'ኤሌክትሮኒክስ እና ስልኮች', nameEn: 'Electronics & Phones', isActive: true },
+        { id: 'fashion', nameAm: 'ልብሶች እና ፋሽን', nameEn: 'Fashion & Apparel', isActive: true },
+        { id: 'vehicles', nameAm: 'ተሽከርካሪዎች', nameEn: 'Vehicles & Motors', isActive: true },
+        { id: 'agriculture', nameAm: 'የግብርና እና የሀገር ምርቶች', nameEn: 'Agriculture & Crops', isActive: true },
+        { id: 'home', nameAm: 'የቤት እቃዎች', nameEn: 'Home & Furniture', isActive: true },
+        { id: 'coffee', nameAm: 'ቡና እና ቅመማ ቅመም', nameEn: 'Coffee & Spices', isActive: true },
+      ];
+
+  const safeSiteSettings: SiteSettings = {
+    siteNameAm: siteSettings?.siteNameAm || 'ቀላል ገበያ',
+    siteNameEn: siteSettings?.siteNameEn || 'Kelal Gebeya',
+    siteSubtitleAm: siteSettings?.siteSubtitleAm || 'የገዢዎች እና ሻጮች ቀጥታ ገበያ',
+    siteSubtitleEn: siteSettings?.siteSubtitleEn || 'Direct Buyer-Seller Local Platform',
+    announcementAm: siteSettings?.announcementAm || '🎉 ከሚፈልጉት ከተማ ፈጣን ግብይትን ይፈጽሙ',
+    announcementEn: siteSettings?.announcementEn || '🎉 Fast trading from any city of your choice!',
+    heroTitleAm: siteSettings?.heroTitleAm || 'በማንኛውም የኢትዮጵያ ከተሞች ፈጣን እና አስተማማኝ ግብይት',
+    heroTitleEn: siteSettings?.heroTitleEn || 'Fast and reliable trading in any Ethiopian city',
+    heroSubtitleAm: siteSettings?.heroSubtitleAm || 'በአዲስ አበባ፣ አዳማ፣ ደብረ ብርሃን... ግብይትን ይፈጽሙ።',
+    heroSubtitleEn: siteSettings?.heroSubtitleEn || 'Buy and sell directly in Ethiopian cities.',
+    supportPhone: siteSettings?.supportPhone || '+251911223344',
+    supportEmail: siteSettings?.supportEmail || 'support@ethiopiacitiesmarket.et',
+    telegramHandle: siteSettings?.telegramHandle || '@ethiopia_cities_admin',
+    monthlyRentAmount: siteSettings?.monthlyRentAmount || 1500,
+    telebirrAccount: siteSettings?.telebirrAccount || '+251911223344',
+    cbeAccount: siteSettings?.cbeAccount || '1000123456789',
+    enabledCities: Array.isArray(siteSettings?.enabledCities) ? siteSettings.enabledCities : ['ADDIS_ABABA', 'ADAMA', 'DEBRE_BERHAN', 'HAWASSA'],
+    categories: safeCategories,
+  };
+
   const [activeTab, setActiveTab] = useState<'sellers' | 'branding' | 'financial' | 'categories' | 'security'>('sellers');
   const [banner, setBanner] = useState<{ type: 'success' | 'error' | 'info'; message: string; subText?: string } | null>(null);
 
   // Form states initialized from props
-  const [settingsForm, setSettingsForm] = useState<SiteSettings>(siteSettings);
-  const [profileForm, setProfileForm] = useState<AdminProfile>(adminProfile);
+  const [settingsForm, setSettingsForm] = useState<SiteSettings>(safeSiteSettings);
+  const [profileForm, setProfileForm] = useState<AdminProfile>(adminProfile || { name: 'Admin', email: 'admin@kelalgebeya.com', role: 'Super Admin' });
   const [passwordForm, setPasswordForm] = useState({ current: '', newPass: '', confirm: '' });
 
   // Sync settingsForm whenever siteSettings prop updates
   useEffect(() => {
-    setSettingsForm(siteSettings);
+    setSettingsForm(safeSiteSettings);
   }, [siteSettings]);
 
   // New Category Form State
@@ -52,12 +85,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [editCatAm, setEditCatAm] = useState('');
   const [editCatEn, setEditCatEn] = useState('');
 
-  const activeCount = sellers.filter((s) => s.subscriptionStatus === 'active').length;
-  const dueCount = sellers.filter((s) => s.subscriptionStatus === 'due_soon' || s.subscriptionStatus === 'expired').length;
-  const blockedCount = sellers.filter((s) => s.subscriptionStatus === 'blocked').length;
-  const totalMonthlyRevenue = sellers
+  const activeCount = safeSellers.filter((s) => s.subscriptionStatus === 'active').length;
+  const dueCount = safeSellers.filter((s) => s.subscriptionStatus === 'due_soon' || s.subscriptionStatus === 'expired').length;
+  const blockedCount = safeSellers.filter((s) => s.subscriptionStatus === 'blocked').length;
+  const totalMonthlyRevenue = safeSellers
     .filter((s) => s.subscriptionStatus === 'active')
-    .reduce((acc, s) => acc + s.rentAmount, 0);
+    .reduce((acc, s) => acc + (typeof s.rentAmount === 'number' ? s.rentAmount : 1500), 0);
 
   const showBanner = (type: 'success' | 'error' | 'info', message: string, subText?: string) => {
     setBanner({ type, message, subText });
