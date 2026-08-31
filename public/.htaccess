@@ -1,0 +1,30 @@
+# Enable Apache Rewrite Engine for Next.js Static Export on cPanel / Yegara Hosting
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # 2. Serve existing files and directories directly
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 3. Explicitly map /admin and /admin/ to /admin/index.html
+  RewriteRule ^admin/?$ admin/index.html [L]
+  RewriteRule ^admin/(.*)$ admin/$1 [L]
+
+  # 4. Serve HTML files if they exist (e.g. /about -> /about.html)
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # 5. Fallback for client-side routing to index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Set Access Control Headers
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>

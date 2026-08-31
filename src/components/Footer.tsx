@@ -130,7 +130,13 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Copyright */}
         <div className="pt-8 mt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-slate-500 gap-4 text-xs">
-          <p>© 2026 MarketX E-Commerce Platform. All rights reserved.</p>
+          <p>© 2026 ቀላል ገበያ (Kelal Gebeya). All rights reserved.</p>
+          <a
+            href="/admin/"
+            className="hover:text-emerald-400 text-slate-600 hover:underline transition-colors flex items-center gap-1 font-bold text-[11px]"
+          >
+            🔐 የአድሚን መግቢያ (Admin Portal)
+          </a>
           <p className="flex items-center gap-1">
             Built with <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" /> for top speed & aesthetics
           </p>
