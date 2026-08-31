@@ -291,6 +291,11 @@ export default function Home() {
     setProducts((prev) => [newProduct, ...prev]);
   };
 
+  const handleRegisterSeller = (newSeller: Seller) => {
+    setSellers((prev) => [newSeller, ...prev]);
+    setCurrentSeller(newSeller);
+  };
+
   // Admin Handlers (Block/Unblock & Record Rent Payment)
   const handleToggleBlockSeller = (sellerId: string) => {
     setSellers((prev) =>
@@ -549,6 +554,7 @@ export default function Home() {
         onClose={() => setIsAuthModalOpen(false)}
         onSuccess={handleAuthSuccess}
         sellers={sellers}
+        onRegisterSeller={handleRegisterSeller}
       />
 
     </div>
