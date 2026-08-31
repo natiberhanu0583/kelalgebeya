@@ -123,7 +123,7 @@ export default function Home() {
   ]);
   const [wishlistIds, setWishlistIds] = useState<string[]>(['prod-2', 'prod-3']);
 
-  // Load saved site settings & admin profile from localStorage on initial mount
+  // Load saved site settings, admin profile, products & sellers from localStorage on initial mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedSettings = localStorage.getItem('kelal_gebeya_site_settings');
@@ -143,6 +143,30 @@ export default function Home() {
           setAdminProfile(parsed);
         } catch (e) {
           console.error('Failed to parse saved admin profile:', e);
+        }
+      }
+
+      const savedProducts = localStorage.getItem('kelal_gebeya_products');
+      if (savedProducts) {
+        try {
+          const parsed = JSON.parse(savedProducts);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setProducts(parsed);
+          }
+        } catch (e) {
+          console.error('Failed to parse saved products:', e);
+        }
+      }
+
+      const savedSellers = localStorage.getItem('kelal_gebeya_sellers');
+      if (savedSellers) {
+        try {
+          const parsed = JSON.parse(savedSellers);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setSellers(parsed);
+          }
+        } catch (e) {
+          console.error('Failed to parse saved sellers:', e);
         }
       }
     }
@@ -288,30 +312,46 @@ export default function Home() {
 
   // Seller Handlers
   const handleAddProductBySeller = (newProduct: Product) => {
-    setProducts((prev) => [newProduct, ...prev]);
+    setProducts((prev) => {
+      const updated = [newProduct, ...prev];
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kelal_gebeya_products', JSON.stringify(updated));
+      }
+      return updated;
+    });
   };
 
   const handleRegisterSeller = (newSeller: Seller) => {
-    setSellers((prev) => [newSeller, ...prev]);
+    setSellers((prev) => {
+      const updated = [newSeller, ...prev];
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
+      }
+      return updated;
+    });
     setCurrentSeller(newSeller);
   };
 
   // Admin Handlers (Block/Unblock & Record Rent Payment)
   const handleToggleBlockSeller = (sellerId: string) => {
-    setSellers((prev) =>
-      prev.map((s) => {
+    setSellers((prev) => {
+      const updated = prev.map((s) => {
         if (s.id === sellerId) {
           const newStatus = s.subscriptionStatus === 'blocked' ? 'active' : 'blocked';
           return { ...s, subscriptionStatus: newStatus };
         }
         return s;
-      })
-    );
+      });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
+      }
+      return updated;
+    });
   };
 
   const handleRecordRentPayment = (sellerId: string) => {
-    setSellers((prev) =>
-      prev.map((s) => {
+    setSellers((prev) => {
+      const updated = prev.map((s) => {
         if (s.id === sellerId) {
           return {
             ...s,
@@ -321,8 +361,12 @@ export default function Home() {
           };
         }
         return s;
-      })
-    );
+      });
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
+      }
+      return updated;
+    });
   };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
