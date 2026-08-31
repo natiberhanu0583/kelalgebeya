@@ -12,6 +12,7 @@ import { CartDrawer } from '../components/CartDrawer';
 import { CheckoutModal } from '../components/CheckoutModal';
 import { Footer } from '../components/Footer';
 import { PWAInstallPrompt } from '../components/PWAInstallPrompt';
+import { GoogleAuthModal } from '../components/GoogleAuthModal';
 
 import { mockProducts, initialSellers } from '../data/mockProducts';
 import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole, Seller, SiteSettings, AdminProfile, ETHIOPIAN_CITIES } from '../types/ecommerce';
@@ -28,6 +29,46 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-low' | 'price-high' | 'rating'>('featured');
+
+  // Google Authentication State
+  const [isGoogleAuthOpen, setIsGoogleAuthOpen] = useState<boolean>(false);
+  const [googleAuthTargetRole, setGoogleAuthTargetRole] = useState<'seller' | 'admin'>('seller');
+  const [authUser, setAuthUser] = useState<{ name: string; email: string; avatar: string; role: 'seller' | 'admin' } | null>(null);
+
+  // Restore authenticated user session from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('kelal_gebeya_auth_user');
+      if (savedUser) {
+        try {
+          setAuthUser(JSON.parse(savedUser));
+        } catch (e) {
+          console.error('Failed to parse saved auth user:', e);
+        }
+      }
+    }
+  }, []);
+
+  const handleRequestGoogleAuth = (role: 'seller' | 'admin') => {
+    setGoogleAuthTargetRole(role);
+    setIsGoogleAuthOpen(true);
+  };
+
+  const handleGoogleAuthSuccess = (userData: { name: string; email: string; avatar: string; role: 'seller' | 'admin' }) => {
+    setAuthUser(userData);
+    setActiveRole(userData.role);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('kelal_gebeya_auth_user', JSON.stringify(userData));
+    }
+  };
+
+  const handleSignOut = () => {
+    setAuthUser(null);
+    setActiveRole('buyer');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('kelal_gebeya_auth_user');
+    }
+  };
 
   // Auto-detect user's city on page load
   useEffect(() => {
@@ -281,6 +322,9 @@ export default function Home() {
         onSelectRole={setActiveRole}
         onOpenCart={() => setIsCartOpen(true)}
         siteSettings={siteSettings}
+        authUser={authUser}
+        onSignOut={handleSignOut}
+        onRequestGoogleAuth={handleRequestGoogleAuth}
       />
 
       {/* RENDER BASED ON ACTIVE ROLE VIEW */}
@@ -477,6 +521,15 @@ export default function Home() {
 
       {/* PWA Mobile App Install Prompt */}
       <PWAInstallPrompt />
+
+      {/* Google Login Authentication Modal */}
+      <GoogleAuthModal
+        isOpen={isGoogleAuthOpen}
+        targetRole={googleAuthTargetRole}
+        lang={lang}
+        onClose={() => setIsGoogleAuthOpen(false)}
+        onSuccess={handleGoogleAuthSuccess}
+      />
 
     </div>
   );
