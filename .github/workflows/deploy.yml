@@ -39,7 +39,7 @@ jobs:
           protocol: ftp
           secure: false
           local-dir: ./
-          server-dir: public_html/
+          server-dir: kelalgebeya/
           exclude: |
             **/.git*
             **/.git*/**
