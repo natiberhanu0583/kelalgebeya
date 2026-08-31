@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, Users, AlertOctagon, CheckCircle2, DollarSign, BellRing, 
   Ban, Unlock, ShieldAlert, MapPin, Globe, CreditCard, KeyRound, Save, Check,
-  FolderPlus, Layers, Edit3, Eye, EyeOff, Plus
+  FolderPlus, Layers, Edit3, Eye, EyeOff, Plus, X
 } from 'lucide-react';
 import { Seller, Language, ETHIOPIAN_CITIES, SiteSettings, AdminProfile, CategoryItem } from '../types/ecommerce';
 import { getTranslation } from '../data/translations';
@@ -31,7 +31,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onRecordPayment,
 }) => {
   const [activeTab, setActiveTab] = useState<'sellers' | 'branding' | 'financial' | 'categories' | 'security'>('sellers');
-  const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
+  const [banner, setBanner] = useState<{ type: 'success' | 'error' | 'info'; message: string; subText?: string } | null>(null);
 
   // Form states initialized from props
   const [settingsForm, setSettingsForm] = useState<SiteSettings>(siteSettings);
@@ -59,31 +59,38 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     .filter((s) => s.subscriptionStatus === 'active')
     .reduce((acc, s) => acc + s.rentAmount, 0);
 
-  const showFeedback = (msg: string) => {
-    setNotificationMsg(msg);
-    setTimeout(() => setNotificationMsg(null), 4000);
+  const showBanner = (type: 'success' | 'error' | 'info', message: string, subText?: string) => {
+    setBanner({ type, message, subText });
+    setTimeout(() => setBanner(null), 5000);
   };
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
-    onUpdateSiteSettings(settingsForm);
-    showFeedback(`✅ ${getTranslation(lang, 'settingsSaved')}`);
+    try {
+      onUpdateSiteSettings(settingsForm);
+      showBanner('success', '🎉 የሳይቱ መረጃዎች በስኬት ተዘምነዋል! (Site Settings Updated Successfully)', 'በብራውዘርና በማዕከላዊ ክላውድ ዳታቤዝ ላይ በቋሚነት ተቀምጧል');
+    } catch (err) {
+      showBanner('error', '❌ ማዘመን አልተቻለም! እባክዎን እንደገና ይሞክሩ።');
+    }
   };
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordForm.newPass && passwordForm.newPass !== passwordForm.confirm) {
-      showFeedback('❌ Password confirmation does not match!');
+      showBanner('error', '❌ የተረጋገጠው የይለፍ ቃል አይመሳሰልም! (Passwords do not match)');
       return;
     }
     onUpdateAdminProfile(profileForm);
     setPasswordForm({ current: '', newPass: '', confirm: '' });
-    showFeedback('✅ Admin profile & credentials updated successfully!');
+    showBanner('success', '👤 የአድሚን ፕሮፋይል መረጃ በስኬት ተዘምኗል! (Admin Profile Updated)');
   };
 
   const handleAddCategory = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newCatAm.trim() || !newCatEn.trim()) return;
+    if (!newCatAm.trim() || !newCatEn.trim()) {
+      showBanner('error', '❌ እባክዎን የካታጎሪውን ስም በአማርኛ እና በእንግሊዝኛ ይሙሉ');
+      return;
+    }
 
     const id = newCatEn.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const newCat: CategoryItem = {
@@ -101,7 +108,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     
     setNewCatAm('');
     setNewCatEn('');
-    showFeedback(`✅ አዲስ ካታጎሪ "${newCatAm}" በተሳካ ሁኔታ ተጨምሯል!`);
+    showBanner('success', `✨ አዲስ ካታጎሪ "${newCatAm}" በተሳካ ሁኔታ ተጨምሯል!`);
   };
 
   const handleToggleCategoryStatus = (catId: string) => {
@@ -111,11 +118,14 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     const updatedSettings = { ...siteSettings, categories: updatedCategories };
     setSettingsForm(updatedSettings);
     onUpdateSiteSettings(updatedSettings);
-    showFeedback('✅ የካታጎሪው ሁኔታ ተቀይሯል!');
+    showBanner('success', '🔄 የካታጎሪው ሁኔታ በስኬት ተቀይሯል!');
   };
 
   const handleSaveEditCategory = (catId: string) => {
-    if (!editCatAm.trim() || !editCatEn.trim()) return;
+    if (!editCatAm.trim() || !editCatEn.trim()) {
+      showBanner('error', '❌ እባክዎን ሁሉንም የካታጎሪ መስኮች ይሙሉ');
+      return;
+    }
     const updatedCategories = (siteSettings.categories || []).map((cat) =>
       cat.id === catId ? { ...cat, nameAm: editCatAm.trim(), nameEn: editCatEn.trim() } : cat
     );
@@ -123,15 +133,59 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
     setSettingsForm(updatedSettings);
     onUpdateSiteSettings(updatedSettings);
     setEditingCatId(null);
-    showFeedback('✅ የካታጎሪው ስም በተሳካ ሁኔታ ተስተካክሏል!');
+    showBanner('success', '✏️ የካታጎሪው ስም በተሳካ ሁኔታ ተስተካክሏል!');
   };
 
   const handleSendReminder = (sellerName: string) => {
-    showFeedback(`📩 Rent payment reminder notification sent to ${sellerName}!`);
+    showBanner('info', `📩 የኪራይ ክፍያ ማስታወሻ ለ ${sellerName} በስኬት ተልኳል!`);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 animate-fadeIn text-white">
+    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8 animate-fadeIn text-white relative">
+      
+      {/* Floating Top Status Banner (Success / Error) */}
+      {banner && (
+        <div
+          className={`fixed top-5 left-1/2 -translate-x-1/2 z-50 max-w-xl w-[92%] p-4 rounded-2xl border backdrop-blur-2xl shadow-2xl flex items-center justify-between gap-4 transition-all duration-300 ${
+            banner.type === 'error'
+              ? 'bg-rose-950/95 border-rose-500 text-rose-200 shadow-rose-950/80'
+              : banner.type === 'info'
+              ? 'bg-sky-950/95 border-sky-500 text-sky-200 shadow-sky-950/80'
+              : 'bg-emerald-950/95 border-emerald-500 text-emerald-200 shadow-emerald-950/80'
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                banner.type === 'error' 
+                  ? 'bg-rose-500/20 text-rose-400' 
+                  : banner.type === 'info'
+                  ? 'bg-sky-500/20 text-sky-400'
+                  : 'bg-emerald-500/20 text-emerald-400'
+              }`}
+            >
+              {banner.type === 'error' ? (
+                <AlertOctagon className="w-6 h-6" />
+              ) : banner.type === 'info' ? (
+                <BellRing className="w-6 h-6" />
+              ) : (
+                <CheckCircle2 className="w-6 h-6" />
+              )}
+            </div>
+            <div>
+              <p className="text-xs sm:text-sm font-black text-white">{banner.message}</p>
+              {banner.subText && <p className="text-[11px] opacity-80 mt-0.5">{banner.subText}</p>}
+            </div>
+          </div>
+
+          <button
+            onClick={() => setBanner(null)}
+            className="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
       
       {/* Admin Title Banner */}
       <div className="bg-slate-900/90 p-6 sm:p-8 rounded-3xl border border-slate-800 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
