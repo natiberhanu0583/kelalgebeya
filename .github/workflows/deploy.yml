@@ -23,7 +23,10 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Static Site
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build Next.js App
         run: npm run build
 
       - name: Sync files via FTP to Yegara
@@ -34,7 +37,11 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
           security: loose
-          local-dir: ./out/
-          server-dir: public_html/
-          dangerous-clean-slate: true
-
+          local-dir: ./
+          server-dir: kelalgebeya/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/dev.db
+            **/deploy.zip
