@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
-
 
 model Seller {
   id                 String    @id @default(cuid())
@@ -37,7 +37,7 @@ model Product {
   image         String
   description   String
   descriptionAm String?
-  features      String[]
+  features      String   @default("[]")
   inStock       Boolean  @default(true)
   isFeatured    Boolean  @default(false)
   city          String   // e.g. 'ADDIS_ABABA', 'BALE_ROBE'
@@ -59,7 +59,7 @@ model Category {
 model SiteSetting {
   id        String   @id @default("default")
   key       String   @unique
-  value     String   @db.Text
+  value     String
   updatedAt DateTime @updatedAt
 }
 
@@ -72,7 +72,7 @@ model Order {
   address       String
   paymentMethod String   // 'telebirr' | 'chapa' | 'cbeBirr' | 'cashOnDelivery'
   totalAmount   Float
-  itemsJson     String   @db.Text // JSON representation of order items
+  itemsJson     String   // JSON representation of order items
   sellers       Seller[] @relation("SellerOrders")
   status        String   @default("pending") // 'pending' | 'completed' | 'cancelled'
   createdAt     DateTime @default(now())

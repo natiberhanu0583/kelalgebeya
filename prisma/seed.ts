@@ -72,7 +72,7 @@ async function main() {
         image: prod.image,
         description: prod.description,
         descriptionAm: prod.descriptionAm,
-        features: prod.features,
+        features: JSON.stringify(prod.features || []),
         inStock: prod.inStock,
         isFeatured: prod.isFeatured,
         city: prod.city,
@@ -90,7 +90,7 @@ async function main() {
         image: prod.image,
         description: prod.description,
         descriptionAm: prod.descriptionAm,
-        features: prod.features,
+        features: JSON.stringify(prod.features || []),
         inStock: prod.inStock,
         isFeatured: prod.isFeatured,
         city: prod.city,
@@ -104,13 +104,13 @@ async function main() {
   await prisma.siteSetting.upsert({
     where: { key: 'monthly_rent_etb' },
     update: { value: '1500' },
-    create: { key: 'monthly_rent_etb', value: '1500' },
+    create: { id: 'monthly_rent_etb', key: 'monthly_rent_etb', value: '1500' },
   });
 
   await prisma.siteSetting.upsert({
     where: { key: 'telebirr_account' },
     update: { value: '+251911000111' },
-    create: { key: 'telebirr_account', value: '+251911000111' },
+    create: { id: 'telebirr_account', key: 'telebirr_account', value: '+251911000111' },
   });
 
   console.log('✅ Site Settings seeded');
