@@ -241,14 +241,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         </div>
       </div>
 
-      {/* Action Notification Alert */}
-      {notificationMsg && (
-        <div className="bg-emerald-500/10 border border-emerald-500/40 p-4 rounded-2xl text-xs text-emerald-400 font-semibold flex items-center gap-2 animate-fadeIn">
-          <BellRing className="w-4 h-4 flex-shrink-0" />
-          <span>{notificationMsg}</span>
-        </div>
-      )}
-
       {/* Admin Tab Navigation */}
       <div className="flex flex-wrap items-center gap-2 bg-slate-900/80 p-2 rounded-2xl border border-slate-800">
         <button

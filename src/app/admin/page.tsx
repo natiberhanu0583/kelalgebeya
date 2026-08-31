@@ -10,7 +10,12 @@ import Link from 'next/link';
 
 export default function AdminPage() {
   const [lang, setLang] = useState<Language>('am');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('kelal_gebeya_admin_authenticated') === 'true';
+    }
+    return false;
+  });
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
