@@ -76,10 +76,15 @@ export default function AdminPage() {
     async function loadCloudData() {
       const cloudData = await fetchCloudData();
       if (cloudData) {
-        if (cloudData.sellers && cloudData.sellers.length > 0) {
+        if (cloudData.sellers && Array.isArray(cloudData.sellers) && cloudData.sellers.length > 0) {
           setSellers(cloudData.sellers);
         }
-        if (cloudData.siteSettings) {
+        if (
+          cloudData.siteSettings &&
+          typeof cloudData.siteSettings === 'object' &&
+          Array.isArray(cloudData.siteSettings.categories) &&
+          cloudData.siteSettings.categories.length > 0
+        ) {
           setSiteSettings(cloudData.siteSettings);
         }
       }

@@ -141,7 +141,12 @@ export default function Home() {
             localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(cloudData.sellers));
           }
         }
-        if (cloudData.siteSettings) {
+        if (
+          cloudData.siteSettings &&
+          typeof cloudData.siteSettings === 'object' &&
+          Array.isArray(cloudData.siteSettings.categories) &&
+          cloudData.siteSettings.categories.length > 0
+        ) {
           setSiteSettings(cloudData.siteSettings);
         }
       }
@@ -152,7 +157,9 @@ export default function Home() {
       if (savedSettings) {
         try {
           const parsed = JSON.parse(savedSettings);
-          setSiteSettings(parsed);
+          if (parsed && Array.isArray(parsed.categories) && parsed.categories.length > 0) {
+            setSiteSettings(parsed);
+          }
         } catch (e) {
           console.error('Failed to parse saved site settings:', e);
         }
