@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span>{lang === 'am' ? '🇪🇹 አማርኛ' : '🇬🇧 English'}</span>
             </button>
 
-            {/* Role Switcher Pills */}
+            {/* Role Switcher Pills (Public Users & Sellers) */}
             <div className="flex items-center bg-slate-900 rounded-full border border-slate-800 p-0.5">
               <button
                 onClick={() => onSelectRole('buyer')}
@@ -135,23 +135,6 @@ export const Header: React.FC<HeaderProps> = ({
                 }`}
               >
                 {getTranslation(lang, 'sellerMode')}
-              </button>
-
-              <button
-                onClick={() => {
-                  if (!authUser && onRequestGoogleAuth) {
-                    onRequestGoogleAuth('admin');
-                  } else {
-                    onSelectRole('admin');
-                  }
-                }}
-                className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
-                  activeRole === 'admin'
-                    ? 'bg-indigo-500 text-white shadow-md'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {getTranslation(lang, 'adminMode')}
               </button>
             </div>
 
