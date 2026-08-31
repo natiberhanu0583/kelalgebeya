@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { CityHeaderBanner } from '../components/CityHeaderBanner';
 import { ProductCard } from '../components/ProductCard';
@@ -14,18 +14,45 @@ import { Footer } from '../components/Footer';
 import { PWAInstallPrompt } from '../components/PWAInstallPrompt';
 
 import { mockProducts, initialSellers } from '../data/mockProducts';
-import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole, Seller, SiteSettings, AdminProfile } from '../types/ecommerce';
+import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole, Seller, SiteSettings, AdminProfile, ETHIOPIAN_CITIES } from '../types/ecommerce';
 import { getTranslation } from '../data/translations';
-import { ArrowUpDown, ShoppingBag, MapPin } from 'lucide-react';
+import { ArrowUpDown, ShoppingBag, MapPin, CheckCircle2, Sparkles, X } from 'lucide-react';
+import { detectUserCity } from '../utils/location';
 
 export default function Home() {
   // Global State
   const [lang, setLang] = useState<Language>('am'); // Default to Amharic
   const [activeRole, setActiveRole] = useState<UserRole>('buyer');
   const [selectedCity, setSelectedCity] = useState<EthiopianCityCode | 'all'>('all');
+  const [detectedToast, setDetectedToast] = useState<{ cityNameAm: string; cityNameEn: string; source: string } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-low' | 'price-high' | 'rating'>('featured');
+
+  // Auto-detect user's city on page load
+  useEffect(() => {
+    async function runCityDetection() {
+      const result = await detectUserCity();
+      setSelectedCity(result.city);
+      
+      const cityObj = ETHIOPIAN_CITIES.find((c) => c.code === result.city);
+      if (cityObj) {
+        setDetectedToast({
+          cityNameAm: cityObj.nameAm,
+          cityNameEn: cityObj.nameEn,
+          source: result.source === 'gps' ? 'GPS' : 'IP Location',
+        });
+      }
+    }
+    runCityDetection();
+  }, []);
+
+  const handleCitySelect = (city: EthiopianCityCode | 'all') => {
+    setSelectedCity(city);
+    if (typeof window !== 'undefined' && city !== 'all') {
+      localStorage.setItem('user_selected_city', city);
+    }
+  };
 
   // Application Data State
   const [products, setProducts] = useState<Product[]>(mockProducts);
@@ -208,7 +235,7 @@ export default function Home() {
         selectedCategory={selectedCategory}
         onSelectCategory={setSelectedCategory}
         selectedCity={selectedCity}
-        onSelectCity={setSelectedCity}
+        onSelectCity={handleCitySelect}
         lang={lang}
         onToggleLanguage={() => setLang(lang === 'am' ? 'en' : 'am')}
         activeRole={activeRole}
@@ -220,10 +247,37 @@ export default function Home() {
       {/* RENDER BASED ON ACTIVE ROLE VIEW */}
       {activeRole === 'buyer' && (
         <>
+          {/* Location Detection Toast Notification */}
+          {detectedToast && (
+            <div className="bg-emerald-950/80 border-b border-emerald-800/60 px-4 py-2.5 text-xs font-semibold text-emerald-200 backdrop-blur-md flex items-center justify-between shadow-lg transition-all">
+              <div className="flex items-center gap-2 max-w-7xl mx-auto w-full">
+                <span className="flex h-2 w-2 relative shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>
+                  {lang === 'am' ? (
+                    <>ቦታዎ በራስ-ሰር ተለይቷል፡ <strong className="text-white underline">{detectedToast.cityNameAm}</strong> ({detectedToast.cityNameEn}) — የከተማ ማጣሪያው ባለበት ከተማ ዲፎልት ተደርጓል!</>
+                  ) : (
+                    <>Location detected: <strong className="text-white underline">{detectedToast.cityNameEn}</strong> ({detectedToast.cityNameAm}) — City filter updated automatically!</>
+                  )}
+                </span>
+              </div>
+              <button
+                onClick={() => setDetectedToast(null)}
+                className="p-1 hover:bg-emerald-900/50 rounded-lg text-emerald-400 hover:text-white transition-colors ml-2"
+                title="Dismiss"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
           {/* New Ethiopian City Header Banner */}
           <CityHeaderBanner
             selectedCity={selectedCity}
-            onSelectCity={setSelectedCity}
+            onSelectCity={handleCitySelect}
             lang={lang}
             onExplore={() => {
               const section = document.getElementById('catalog-section');
