@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, Users, AlertOctagon, CheckCircle2, DollarSign, BellRing, 
   Ban, Unlock, ShieldAlert, MapPin, Globe, CreditCard, KeyRound, Save, Check,
@@ -37,6 +37,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [settingsForm, setSettingsForm] = useState<SiteSettings>(siteSettings);
   const [profileForm, setProfileForm] = useState<AdminProfile>(adminProfile);
   const [passwordForm, setPasswordForm] = useState({ current: '', newPass: '', confirm: '' });
+
+  // Sync settingsForm whenever siteSettings prop updates
+  useEffect(() => {
+    setSettingsForm(siteSettings);
+  }, [siteSettings]);
 
   // New Category Form State
   const [newCatAm, setNewCatAm] = useState('');

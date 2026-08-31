@@ -63,6 +63,45 @@ export default function Home() {
   ]);
   const [wishlistIds, setWishlistIds] = useState<string[]>(['prod-2', 'prod-3']);
 
+  // Load saved site settings & admin profile from localStorage on initial mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedSettings = localStorage.getItem('kelal_gebeya_site_settings');
+      if (savedSettings) {
+        try {
+          const parsed = JSON.parse(savedSettings);
+          setSiteSettings(parsed);
+        } catch (e) {
+          console.error('Failed to parse saved site settings:', e);
+        }
+      }
+
+      const savedProfile = localStorage.getItem('kelal_gebeya_admin_profile');
+      if (savedProfile) {
+        try {
+          const parsed = JSON.parse(savedProfile);
+          setAdminProfile(parsed);
+        } catch (e) {
+          console.error('Failed to parse saved admin profile:', e);
+        }
+      }
+    }
+  }, []);
+
+  const handleUpdateSiteSettings = (newSettings: SiteSettings) => {
+    setSiteSettings(newSettings);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('kelal_gebeya_site_settings', JSON.stringify(newSettings));
+    }
+  };
+
+  const handleUpdateAdminProfile = (newProfile: AdminProfile) => {
+    setAdminProfile(newProfile);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('kelal_gebeya_admin_profile', JSON.stringify(newProfile));
+    }
+  };
+
   // Dynamic Admin & Website Management Settings
   const [siteSettings, setSiteSettings] = useState<SiteSettings>({
     siteNameAm: 'ቀላል ገበያ',
@@ -388,9 +427,9 @@ export default function Home() {
           sellers={sellers}
           lang={lang}
           siteSettings={siteSettings}
-          onUpdateSiteSettings={setSiteSettings}
+          onUpdateSiteSettings={handleUpdateSiteSettings}
           adminProfile={adminProfile}
-          onUpdateAdminProfile={setAdminProfile}
+          onUpdateAdminProfile={handleUpdateAdminProfile}
           onToggleBlockSeller={handleToggleBlockSeller}
           onRecordPayment={handleRecordRentPayment}
         />
