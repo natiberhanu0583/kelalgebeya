@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PackagePlus, CheckCircle2, AlertTriangle, AlertCircle, PlusCircle, MapPin, Upload, Image as ImageIcon } from 'lucide-react';
+import { PackagePlus, CheckCircle2, AlertTriangle, AlertCircle, PlusCircle, MapPin, Upload, Image as ImageIcon, Trash2 } from 'lucide-react';
 import { Product, Seller, EthiopianCityCode, CategoryType, Language, ETHIOPIAN_CITIES, CategoryItem } from '../types/ecommerce';
 import { getTranslation } from '../data/translations';
 
@@ -51,7 +51,7 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
     e.preventDefault();
     if (!name.trim() || !price) return;
 
-    // Preset fallback images by category
+    // Preset fallback images by category if no custom image selected
     const defaultImages: Record<string, string> = {
       electronics: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=800&auto=format&fit=crop&q=80',
       fashion: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&auto=format&fit=crop&q=80',
@@ -260,17 +260,49 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
               </div>
             </div>
 
-            {/* Flexible Product Photo Upload & URL options */}
+            {/* Direct Device Image File Upload Dropzone */}
             <div className="space-y-2">
-              <label className="block text-xs font-semibold text-slate-300">
-                የምርቱ ፎቶ (Product Image)
+              <label className="block text-xs font-bold text-slate-200">
+                📸 የምርቱ ፎቶ (Direct Device Photo Upload) *
               </label>
 
-              <div className="flex flex-col sm:flex-row gap-3 items-center">
-                {/* Device Photo Upload Button */}
-                <label className="w-full sm:w-auto flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-xl border border-slate-700 text-xs font-bold cursor-pointer transition-colors">
-                  <Upload className="w-4 h-4 text-emerald-400" />
-                  <span>ከስልክ/ኮምፒውተር ፎቶ ይምረጡ</span>
+              {image ? (
+                <div className="relative group rounded-2xl overflow-hidden border-2 border-emerald-500/60 bg-slate-950 p-2 flex items-center justify-between shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={image}
+                      alt="Selected product photo"
+                      className="w-16 h-16 object-cover rounded-xl border border-slate-700 shadow-md"
+                    />
+                    <div>
+                      <p className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                        <span>ፎቶው በስኬት ተመርጧል!</span>
+                      </p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">ምርቱን ሲለቁ ይህ ፎቶ በገበያው ላይ ይታያል።</p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setImage('')}
+                    className="p-2 bg-rose-500/20 hover:bg-rose-500 text-rose-400 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer mr-2 flex items-center gap-1"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>አስወግድ</span>
+                  </button>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-emerald-500/40 hover:border-emerald-400 bg-slate-950/60 hover:bg-slate-950/90 rounded-2xl cursor-pointer transition-all p-4 text-center group shadow-inner">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Upload className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <p className="text-xs font-bold text-white">
+                    ከስልክ ወይም ከኮምፒውተር ፋይል ፎቶ ለመምረጥ እዚህ ይጫኑ
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-1">
+                    (PNG, JPG, WEBP, GIF — ከፋይል አደራጅ/Gallery ቀጥታ መምረጥ ይችላሉ)
+                  </p>
                   <input
                     type="file"
                     accept="image/*"
@@ -278,30 +310,18 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
                     className="hidden"
                   />
                 </label>
+              )}
 
-                <span className="text-slate-500 text-xs font-bold">ወይም</span>
-
-                {/* Optional URL Input */}
+              {/* Optional URL Input Fallback */}
+              <div className="pt-1">
                 <input
                   type="text"
-                  placeholder="የፎቶ ሊንክ (Image URL - Optional)"
+                  placeholder="ወይም የፎቶ ሊንክ ማስገባት ከፈለጉ እዚህ ይጻፉ (Image URL)..."
                   value={image}
                   onChange={(e) => setImage(e.target.value)}
-                  className="flex-1 w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-slate-950 text-white px-3.5 py-2 rounded-xl border border-slate-800 text-[11px] placeholder-slate-500 focus:outline-none focus:border-emerald-500"
                 />
               </div>
-
-              {/* Image Preview if provided */}
-              {image && (
-                <div className="flex items-center gap-3 pt-2">
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className="w-14 h-14 object-cover rounded-xl border border-slate-700 shadow-md"
-                  />
-                  <span className="text-[11px] text-emerald-400 font-semibold">✓ ፎቶ ተመርጧል (Ready to publish)</span>
-                </div>
-              )}
             </div>
 
             {/* Product Description */}
