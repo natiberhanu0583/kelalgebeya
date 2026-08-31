@@ -19,6 +19,7 @@ import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole,
 import { getTranslation } from '../data/translations';
 import { ArrowUpDown, ShoppingBag, MapPin, CheckCircle2, Sparkles, X } from 'lucide-react';
 import { detectUserCity } from '../utils/location';
+import { fetchCloudData, pushCloudProducts, pushCloudSellers } from '../utils/cloudDb';
 
 export default function Home() {
   // Global State
@@ -123,8 +124,29 @@ export default function Home() {
   ]);
   const [wishlistIds, setWishlistIds] = useState<string[]>(['prod-2', 'prod-3']);
 
-  // Load saved site settings, admin profile, products & sellers from localStorage on initial mount
+  // Load saved data & sync with Central Cloud DB across all devices
   useEffect(() => {
+    async function syncGlobalCloudData() {
+      const cloudData = await fetchCloudData();
+      if (cloudData) {
+        if (cloudData.products && cloudData.products.length > 0) {
+          setProducts(cloudData.products);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('kelal_gebeya_products', JSON.stringify(cloudData.products));
+          }
+        }
+        if (cloudData.sellers && cloudData.sellers.length > 0) {
+          setSellers(cloudData.sellers);
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(cloudData.sellers));
+          }
+        }
+        if (cloudData.siteSettings) {
+          setSiteSettings(cloudData.siteSettings);
+        }
+      }
+    }
+
     if (typeof window !== 'undefined') {
       const savedSettings = localStorage.getItem('kelal_gebeya_site_settings');
       if (savedSettings) {
@@ -170,6 +192,16 @@ export default function Home() {
         }
       }
     }
+
+    // Fetch live central cloud data on mount
+    syncGlobalCloudData();
+
+    // Auto-poll central cloud every 15s to fetch new posts from other devices live
+    const intervalId = setInterval(() => {
+      syncGlobalCloudData();
+    }, 15000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleUpdateSiteSettings = (newSettings: SiteSettings) => {
@@ -335,6 +367,7 @@ export default function Home() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('kelal_gebeya_products', JSON.stringify(updated));
       }
+      pushCloudProducts(updated);
       return updated;
     });
   };
@@ -345,6 +378,7 @@ export default function Home() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
       }
+      pushCloudSellers(updated);
       return updated;
     });
     setCurrentSeller(newSeller);
@@ -363,6 +397,7 @@ export default function Home() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
       }
+      pushCloudSellers(updated);
       return updated;
     });
   };
@@ -383,6 +418,7 @@ export default function Home() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
       }
+      pushCloudSellers(updated);
       return updated;
     });
   };
