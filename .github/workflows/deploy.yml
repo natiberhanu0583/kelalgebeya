@@ -1,4 +1,4 @@
-name: Deploy Next.js to Yegara Host (FTP)
+name: Deploy Next.js Static Export to Yegara Host (FTP)
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   web-deploy:
-    name: Deploy to Yegara cPanel
+    name: Deploy Static Site to Yegara cPanel
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -38,11 +38,5 @@ jobs:
           port: 21
           protocol: ftp
           secure: false
-          local-dir: ./
-          server-dir: kelalgebeya/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/dev.db
-            **/deploy.zip
+          local-dir: ./out/
+          server-dir: public_html/
