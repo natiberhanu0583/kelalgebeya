@@ -111,9 +111,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div className="flex items-center gap-1.5 mt-2">
             <div className="flex items-center text-amber-400">
               <Star className="w-3.5 h-3.5 fill-amber-400" />
-              <span className="ml-1 text-xs font-bold">{product.rating.toFixed(1)}</span>
+              <span className="ml-1 text-xs font-bold font-mono">
+                {(typeof product.rating === 'number' ? product.rating : 5.0).toFixed(1)}
+              </span>
             </div>
-            <span className="text-xs text-slate-400 font-medium">({product.reviewsCount})</span>
+            <span className="text-xs text-slate-400 font-medium">({typeof product.reviewsCount === 'number' ? product.reviewsCount : 1})</span>
           </div>
         </div>
 
@@ -122,11 +124,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div className="flex items-center justify-between gap-2">
             <div>
               <div className="text-lg font-extrabold text-white">
-                {product.price.toLocaleString()} <span className="text-xs font-bold text-emerald-400">{getTranslation(lang, 'currencySymbol')}</span>
+                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-xs font-bold text-emerald-400">{getTranslation(lang, 'currencySymbol')}</span>
               </div>
               {product.originalPrice && (
                 <div className="text-xs text-slate-400 line-through">
-                  {product.originalPrice.toLocaleString()} {getTranslation(lang, 'currencySymbol')}
+                  {(typeof product.originalPrice === 'number' ? product.originalPrice : 0).toLocaleString()} {getTranslation(lang, 'currencySymbol')}
                 </div>
               )}
             </div>

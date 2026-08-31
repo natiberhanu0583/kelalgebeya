@@ -11,7 +11,7 @@ export interface CloudData {
   siteSettings?: SiteSettings;
 }
 
-// Fetch central cloud data shared across all devices
+// Fetch central cloud data shared across all devices safely
 export async function fetchCloudData(): Promise<CloudData | null> {
   try {
     const res = await fetch(CLOUD_ENDPOINT, { cache: 'no-store' });
@@ -19,18 +19,28 @@ export async function fetchCloudData(): Promise<CloudData | null> {
     const json = await res.json();
 
     if (json && json.data) {
-      const cloudProducts: Product[] = Array.isArray(json.data.products) ? json.data.products : [];
-      const cloudSellers: Seller[] = Array.isArray(json.data.sellers) ? json.data.sellers : [];
+      const rawProducts: any[] = Array.isArray(json.data.products) ? json.data.products : [];
+      const rawSellers: any[] = Array.isArray(json.data.sellers) ? json.data.sellers : [];
+
+      // Filter and validate cloud products to avoid malformed objects
+      const validCloudProducts: Product[] = rawProducts.filter(
+        (p) => p && typeof p === 'object' && p.id && p.name && typeof p.price === 'number' && p.image
+      );
+
+      // Filter and validate cloud sellers
+      const validCloudSellers: Seller[] = rawSellers.filter(
+        (s) => s && typeof s === 'object' && s.id && s.name && s.email
+      );
 
       // Merge mock products with custom cloud products (ensuring no duplicate IDs)
-      const existingProductIds = new Set(cloudProducts.map((p) => p.id));
+      const existingProductIds = new Set(validCloudProducts.map((p) => p.id));
       const missingMockProducts = mockProducts.filter((mp) => !existingProductIds.has(mp.id));
-      const combinedProducts = [...cloudProducts, ...missingMockProducts];
+      const combinedProducts = [...validCloudProducts, ...missingMockProducts];
 
       // Merge initial sellers with custom cloud sellers
-      const existingSellerIds = new Set(cloudSellers.map((s) => s.id));
+      const existingSellerIds = new Set(validCloudSellers.map((s) => s.id));
       const missingInitialSellers = initialSellers.filter((is) => !existingSellerIds.has(is.id));
-      const combinedSellers = [...cloudSellers, ...missingInitialSellers];
+      const combinedSellers = [...validCloudSellers, ...missingInitialSellers];
 
       return {
         products: combinedProducts,
@@ -47,15 +57,19 @@ export async function fetchCloudData(): Promise<CloudData | null> {
 // Sync updated products list to central cloud database
 export async function pushCloudProducts(products: Product[]): Promise<boolean> {
   try {
-    // First get current cloud sellers to avoid overwriting sellers
     const currentCloud = await fetchCloudData();
     const sellersToSave = currentCloud?.sellers || initialSellers;
     const settingsToSave = currentCloud?.siteSettings;
 
+    // Filter valid products before sending
+    const validProducts = products.filter(
+      (p) => p && typeof p === 'object' && p.id && p.name && typeof p.price === 'number' && p.image
+    );
+
     const bodyData = {
       name: 'kelal_gebeya_database',
       data: {
-        products: products,
+        products: validProducts,
         sellers: sellersToSave,
         siteSettings: settingsToSave,
       },
@@ -81,11 +95,15 @@ export async function pushCloudSellers(sellers: Seller[]): Promise<boolean> {
     const productsToSave = currentCloud?.products || mockProducts;
     const settingsToSave = currentCloud?.siteSettings;
 
+    const validSellers = sellers.filter(
+      (s) => s && typeof s === 'object' && s.id && s.name && s.email
+    );
+
     const bodyData = {
       name: 'kelal_gebeya_database',
       data: {
         products: productsToSave,
-        sellers: sellers,
+        sellers: validSellers,
         siteSettings: settingsToSave,
       },
     };
