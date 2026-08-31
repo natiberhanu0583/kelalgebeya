@@ -77,31 +77,37 @@ export async function detectUserCity(): Promise<{ city: EthiopianCityCode; sourc
     }
   }
 
-  // 2. Try Free IP Location API fallback
+  // 2. Try Free IP Location API fallback safely
   try {
-    const res = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
-    if (res.ok) {
-      const data = await res.json();
-      const detectedCityName = (data.city || '').toLowerCase();
-      
-      // Match against known Ethiopian cities
-      for (const cityObj of ETHIOPIAN_CITIES) {
-        if (
-          detectedCityName.includes(cityObj.nameEn.toLowerCase()) ||
-          cityObj.nameEn.toLowerCase().includes(detectedCityName)
-        ) {
-          return { city: cityObj.code, source: 'ip' };
-        }
-      }
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+    const res = await fetch('https://ipapi.co/json/', { signal: controller.signal }).catch(() => null);
+    clearTimeout(timeoutId);
 
-      // If latitude and longitude are returned by IP API
-      if (data.latitude && data.longitude) {
-        const city = findClosestCity(data.latitude, data.longitude);
-        return { city, source: 'ip' };
+    if (res && res.ok) {
+      const data = await res.json().catch(() => null);
+      if (data) {
+        const detectedCityName = (data.city || '').toLowerCase();
+        
+        // Match against known Ethiopian cities
+        for (const cityObj of ETHIOPIAN_CITIES) {
+          if (
+            detectedCityName.includes(cityObj.nameEn.toLowerCase()) ||
+            cityObj.nameEn.toLowerCase().includes(detectedCityName)
+          ) {
+            return { city: cityObj.code, source: 'ip' };
+          }
+        }
+
+        // If latitude and longitude are returned by IP API
+        if (data.latitude && data.longitude) {
+          const city = findClosestCity(data.latitude, data.longitude);
+          return { city, source: 'ip' };
+        }
       }
     }
   } catch (err) {
-    console.log('IP location detection failed, defaulting to ADDIS_ABABA');
+    // Silent fallback to default city
   }
 
   // Default to Addis Ababa

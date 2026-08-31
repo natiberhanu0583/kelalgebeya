@@ -293,32 +293,46 @@ export default function Home() {
       .map((s) => s.id);
   }, [sellers]);
 
-  // Filter Products (Hide products from BLOCKED sellers & filter by City and Category)
+  // Filter Products (Hide products from BLOCKED sellers & filter by City and Category safely)
   const filteredProducts = useMemo(() => {
-    return products
+    const safeProducts = Array.isArray(products) ? products : [];
+    return safeProducts
       .filter((p) => {
+        if (!p || typeof p !== 'object' || !p.id) return false;
+
         // Automatic rent enforcement: hide blocked seller items from buyers!
-        if (blockedSellerIds.includes(p.sellerId)) {
+        if (p.sellerId && blockedSellerIds.includes(p.sellerId)) {
           return false;
         }
 
         const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
         const matchesCity = selectedCity === 'all' || p.city === selectedCity;
         
-        const titleMatch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (p.nameAm && p.nameAm.toLowerCase().includes(searchQuery.toLowerCase()));
-        const descMatch = p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (p.descriptionAm && p.descriptionAm.toLowerCase().includes(searchQuery.toLowerCase()));
-        const sellerMatch = p.sellerName.toLowerCase().includes(searchQuery.toLowerCase());
+        const nameStr = p.name || '';
+        const nameAmStr = p.nameAm || '';
+        const descStr = p.description || '';
+        const descAmStr = p.descriptionAm || '';
+        const sellerStr = p.sellerName || '';
+
+        const titleMatch = nameStr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          nameAmStr.toLowerCase().includes(searchQuery.toLowerCase());
+        const descMatch = descStr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          descAmStr.toLowerCase().includes(searchQuery.toLowerCase());
+        const sellerMatch = sellerStr.toLowerCase().includes(searchQuery.toLowerCase());
         
         const matchesSearch = searchQuery.trim() === '' || titleMatch || descMatch || sellerMatch;
 
         return matchesCategory && matchesCity && matchesSearch;
       })
       .sort((a, b) => {
-        if (sortBy === 'price-low') return a.price - b.price;
-        if (sortBy === 'price-high') return b.price - a.price;
-        if (sortBy === 'rating') return b.rating - a.rating;
+        const priceA = typeof a.price === 'number' ? a.price : 0;
+        const priceB = typeof b.price === 'number' ? b.price : 0;
+        const ratingA = typeof a.rating === 'number' ? a.rating : 5;
+        const ratingB = typeof b.rating === 'number' ? b.rating : 5;
+
+        if (sortBy === 'price-low') return priceA - priceB;
+        if (sortBy === 'price-high') return priceB - priceA;
+        if (sortBy === 'rating') return ratingB - ratingA;
         return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
       });
   }, [products, blockedSellerIds, selectedCategory, selectedCity, searchQuery, sortBy]);
