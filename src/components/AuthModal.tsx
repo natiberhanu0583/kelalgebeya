@@ -59,23 +59,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setIsLoading(false);
 
       if (targetRole === 'admin') {
-        // Admin Authentication
+        // Admin Authentication (Strict Check)
         const isAdminEmail = 
           email.toLowerCase() === 'admin@kelalgebeya.com' ||
-          email.toLowerCase() === 'admin@ethiopiacitiesmarket.et' ||
-          email.toLowerCase().endsWith('@kelalgebeya.com') ||
           email.toLowerCase() === 'natiberhanu0583@gmail.com';
 
         const isValidAdminPass = 
           password === 'admin123password' || 
-          password === 'admin123' || 
-          password === 'Nati@2127' ||
-          password === 'admin';
+          password === 'Nati@2127';
 
         if (isAdminEmail && isValidAdminPass) {
           onSuccess({
             name: 'የስርዓቱ ዋና አድሚን (Super Admin)',
-            email: email,
+            email: email.toLowerCase(),
             role: 'admin',
           });
           onClose();
@@ -83,15 +79,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           setErrorMsg(
             lang === 'am'
               ? '❌ የተሳሳተ የአድሚን ኢሜይል ወይም የይለፍ ቃል! (ያልተፈቀደ መግባት አይቻልም)'
-              : '❌ Invalid Admin credentials! Access Denied.'
+              : '❌ Invalid Admin email or password! Access Denied.'
           );
         }
       } else {
         // Seller Mode
         if (mode === 'register') {
           // Seller Registration Flow
-          if (!businessName.trim() || !fullName.trim() || !phone.trim()) {
+          if (!businessName.trim() || !fullName.trim() || !phone.trim() || !email.trim() || !password.trim()) {
             setErrorMsg(lang === 'am' ? '❌ እባክዎን ሁሉንም መስኮች በደንብ ይሙሉ' : '❌ Please fill in all fields');
+            return;
+          }
+
+          if (password.length < 6) {
+            setErrorMsg(lang === 'am' ? '❌ የይለፍ ቃል ቢያንስ 6 ፊደላት/ቁጥሮች መሆን አለበት' : '❌ Password must be at least 6 characters');
+            return;
+          }
+
+          // Check if email already registered
+          const existing = sellers.find((s) => s.email.toLowerCase() === email.trim().toLowerCase());
+          if (existing) {
+            setErrorMsg(lang === 'am' ? '❌ ይህ ኢሜይል አስቀድሞ ተመዝግቧል! እባክዎን ይግቡ (Log In)' : '❌ This email is already registered! Please log in.');
             return;
           }
 
@@ -101,7 +109,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             businessName: businessName.trim(),
             city: city,
             phone: phone.trim(),
-            email: email.trim(),
+            email: email.trim().toLowerCase(),
             joinedDate: new Date().toISOString().split('T')[0],
             subscriptionStatus: 'active',
             rentAmount: 1500,
@@ -119,23 +127,35 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           });
           onClose();
         } else {
-          // Seller Login Flow
+          // Seller Login Flow (Strict Registered Check)
           const matchingSeller = sellers.find(
-            (s) => s.email.toLowerCase() === email.toLowerCase()
+            (s) => s.email.toLowerCase() === email.trim().toLowerCase()
           );
 
-          if (matchingSeller || password.length >= 6) {
+          const isValidSellerPass = 
+            password === 'seller123' || 
+            password === 'seller123password' || 
+            password === 'Nati@2127' ||
+            password.length >= 6;
+
+          if (matchingSeller && isValidSellerPass) {
             onSuccess({
-              name: matchingSeller ? matchingSeller.businessName : (email.split('@')[0]),
-              email: email,
+              name: matchingSeller.businessName || matchingSeller.name,
+              email: matchingSeller.email,
               role: 'seller',
             });
             onClose();
+          } else if (!matchingSeller) {
+            setErrorMsg(
+              lang === 'am'
+                ? '❌ ይህ ኢሜይል የተመዘገበ ሻጭ አይደለም! እባክዎን በቅድሚያ "✨ አዲስ ሻጭ ሁን (Register)" በሚለው ተመዝገቡ።'
+                : '❌ Email not registered as a seller! Please register first.'
+            );
           } else {
             setErrorMsg(
               lang === 'am'
-                ? '❌ የገባው ኢሜይል ወይም የይለፍ ቃል አልተዛመደም! (ቢያንስ 6 ፊደል ይኑረው)'
-                : '❌ Invalid Email or Password! (Must be at least 6 characters)'
+                ? '❌ የተሳሳተ የይለፍ ቃል (Incorrect Password)!'
+                : '❌ Incorrect password!'
             );
           }
         }

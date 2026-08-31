@@ -97,16 +97,12 @@ export default function AdminPage() {
       setIsLoading(false);
 
       const isValidEmail = 
-        email.toLowerCase() === 'admin@kelalgebeya.com' ||
-        email.toLowerCase() === 'admin@ethiopiacitiesmarket.et' ||
-        email.toLowerCase().endsWith('@kelalgebeya.com') ||
-        email.toLowerCase() === 'natiberhanu0583@gmail.com';
+        email.toLowerCase().trim() === 'admin@kelalgebeya.com' ||
+        email.toLowerCase().trim() === 'natiberhanu0583@gmail.com';
 
       const isValidPass = 
         password === 'admin123password' || 
-        password === 'admin123' || 
-        password === 'Nati@2127' ||
-        password === 'admin';
+        password === 'Nati@2127';
 
       if (isValidEmail && isValidPass) {
         setIsAuthenticated(true);
