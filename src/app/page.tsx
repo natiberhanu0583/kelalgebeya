@@ -12,7 +12,7 @@ import { CartDrawer } from '../components/CartDrawer';
 import { CheckoutModal } from '../components/CheckoutModal';
 import { Footer } from '../components/Footer';
 import { PWAInstallPrompt } from '../components/PWAInstallPrompt';
-import { GoogleAuthModal } from '../components/GoogleAuthModal';
+import { AuthModal } from '../components/AuthModal';
 
 import { mockProducts, initialSellers } from '../data/mockProducts';
 import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole, Seller, SiteSettings, AdminProfile, ETHIOPIAN_CITIES } from '../types/ecommerce';
@@ -30,10 +30,10 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-low' | 'price-high' | 'rating'>('featured');
 
-  // Google Authentication State
-  const [isGoogleAuthOpen, setIsGoogleAuthOpen] = useState<boolean>(false);
-  const [googleAuthTargetRole, setGoogleAuthTargetRole] = useState<'seller' | 'admin'>('seller');
-  const [authUser, setAuthUser] = useState<{ name: string; email: string; avatar: string; role: 'seller' | 'admin' } | null>(null);
+  // Authentication Protection State
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [authTargetRole, setAuthTargetRole] = useState<'seller' | 'admin'>('seller');
+  const [authUser, setAuthUser] = useState<{ name: string; email: string; avatar?: string; role: 'seller' | 'admin' } | null>(null);
 
   // Restore authenticated user session from localStorage
   useEffect(() => {
@@ -41,7 +41,12 @@ export default function Home() {
       const savedUser = localStorage.getItem('kelal_gebeya_auth_user');
       if (savedUser) {
         try {
-          setAuthUser(JSON.parse(savedUser));
+          const parsed = JSON.parse(savedUser);
+          setAuthUser(parsed);
+          // Automatically restore role view if logged in
+          if (parsed.role) {
+            setActiveRole(parsed.role);
+          }
         } catch (e) {
           console.error('Failed to parse saved auth user:', e);
         }
@@ -49,12 +54,26 @@ export default function Home() {
     }
   }, []);
 
-  const handleRequestGoogleAuth = (role: 'seller' | 'admin') => {
-    setGoogleAuthTargetRole(role);
-    setIsGoogleAuthOpen(true);
+  const handleSelectRole = (role: UserRole) => {
+    if (role === 'buyer') {
+      setActiveRole('buyer');
+      return;
+    }
+
+    if (authUser && authUser.role === role) {
+      setActiveRole(role);
+    } else {
+      setAuthTargetRole(role);
+      setIsAuthModalOpen(true);
+    }
   };
 
-  const handleGoogleAuthSuccess = (userData: { name: string; email: string; avatar: string; role: 'seller' | 'admin' }) => {
+  const handleRequestAuth = (role: 'seller' | 'admin') => {
+    setAuthTargetRole(role);
+    setIsAuthModalOpen(true);
+  };
+
+  const handleAuthSuccess = (userData: { name: string; email: string; avatar?: string; role: 'seller' | 'admin' }) => {
     setAuthUser(userData);
     setActiveRole(userData.role);
     if (typeof window !== 'undefined') {
@@ -319,12 +338,12 @@ export default function Home() {
         lang={lang}
         onToggleLanguage={() => setLang(lang === 'am' ? 'en' : 'am')}
         activeRole={activeRole}
-        onSelectRole={setActiveRole}
+        onSelectRole={handleSelectRole}
         onOpenCart={() => setIsCartOpen(true)}
         siteSettings={siteSettings}
         authUser={authUser}
         onSignOut={handleSignOut}
-        onRequestGoogleAuth={handleRequestGoogleAuth}
+        onRequestGoogleAuth={handleRequestAuth}
       />
 
       {/* RENDER BASED ON ACTIVE ROLE VIEW */}
@@ -522,13 +541,14 @@ export default function Home() {
       {/* PWA Mobile App Install Prompt */}
       <PWAInstallPrompt />
 
-      {/* Google Login Authentication Modal */}
-      <GoogleAuthModal
-        isOpen={isGoogleAuthOpen}
-        targetRole={googleAuthTargetRole}
+      {/* Role Protection Login Modal (Email & Password + Google) */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        targetRole={authTargetRole}
         lang={lang}
-        onClose={() => setIsGoogleAuthOpen(false)}
-        onSuccess={handleGoogleAuthSuccess}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
+        sellers={sellers}
       />
 
     </div>
