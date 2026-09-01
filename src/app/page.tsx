@@ -13,6 +13,7 @@ import { CheckoutModal } from '../components/CheckoutModal';
 import { Footer } from '../components/Footer';
 import { PWAInstallPrompt } from '../components/PWAInstallPrompt';
 import { AuthModal } from '../components/AuthModal';
+import { AppSplashIntro, AppOutroModal } from '../components/AppSplashIntro';
 
 import { mockProducts, initialSellers } from '../data/mockProducts';
 import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole, Seller, SiteSettings, AdminProfile, ETHIOPIAN_CITIES } from '../types/ecommerce';
@@ -444,8 +445,11 @@ export default function Home() {
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 font-sans">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white font-sans">
       
+      {/* Animated Brand Splash Intro */}
+      <AppSplashIntro />
+
       {/* Header with City Selector, Language & Role Navigation */}
       <Header
         cartCount={totalCartCount}

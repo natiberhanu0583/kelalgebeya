@@ -148,17 +148,11 @@ export const Header: React.FC<HeaderProps> = ({
           
           {/* Logo */}
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => onSelectRole('buyer')}>
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-              <Store className="w-6 h-6 text-slate-950 font-bold" />
-            </div>
-            <div>
-              <span className="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
-                {storeTitle}
-              </span>
-              <span className="block text-[10px] uppercase font-bold tracking-widest text-emerald-400">
-                {getTranslation(lang, 'storeSubtitle')}
-              </span>
-            </div>
+            <img
+              src="/logo-full.png"
+              alt="ቀላል ገበያ Kelal Gebeya"
+              className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-md"
+            />
           </div>
 
           {/* Search Bar & City Selector */}

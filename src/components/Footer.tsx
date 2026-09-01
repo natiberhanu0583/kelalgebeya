@@ -65,10 +65,7 @@ export const Footer: React.FC = () => {
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center">
-                <Store className="w-5 h-5 text-slate-950 font-bold" />
-              </div>
-              <span className="text-xl font-extrabold text-white tracking-tight">MarketX Store</span>
+              <img src="/logo-full.png" alt="ቀላል ገበያ Kelal Gebeya" className="h-14 w-auto object-contain" />
             </div>
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
               Ethiopia&apos;s premiere modern e-commerce marketplace delivering top-tier technology, fashion, home essentials, and authentic local craftsmanship directly to your doorstep.
