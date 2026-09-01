@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MapPin, PhoneCall, ShieldCheck, ShoppingBag, Sparkles, ArrowRight, Store } from 'lucide-react';
+import { MapPin, PhoneCall, Send, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
 import { EthiopianCityCode, Language, ETHIOPIAN_CITIES, SiteSettings } from '../types/ecommerce';
 import { getTranslation } from '../data/translations';
 
@@ -24,9 +24,10 @@ export const CityHeaderBanner: React.FC<CityHeaderBannerProps> = ({
     ? (lang === 'am' ? siteSettings.heroTitleAm : siteSettings.heroTitleEn)
     : getTranslation(lang, 'heroTitle');
 
-  const heroSubtitle = siteSettings
-    ? (lang === 'am' ? siteSettings.heroSubtitleAm : siteSettings.heroSubtitleEn)
-    : getTranslation(lang, 'heroSubtitle');
+  const heroSubtitle = 'የሚገኙበትን ከተማ አቅራቢያ በመምረጥ ቀላልና አስተማማኝ ግብይት ይፈጽሙ።';
+
+  const supportPhone = siteSettings?.supportPhone || '0940219376';
+  const telegramHandle = 't.me/natitg2';
 
   const topFeaturedCities: { code: EthiopianCityCode; nameAm: string; nameEn: string }[] = [
     { code: 'ADDIS_ABABA', nameAm: 'አዲስ አበባ', nameEn: 'Addis Ababa' },
@@ -44,7 +45,7 @@ export const CityHeaderBanner: React.FC<CityHeaderBannerProps> = ({
   return (
     <div className="relative bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 text-white border-b border-slate-800/80 overflow-hidden">
       
-      {/* Subtle Background Lighting Effects */}
+      {/* Background Lighting Effects */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full filter blur-3xl pointer-events-none" />
 
@@ -63,7 +64,7 @@ export const CityHeaderBanner: React.FC<CityHeaderBannerProps> = ({
               {heroTitle}
             </h1>
 
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
+            <p className="text-slate-200 text-sm sm:text-base font-semibold leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
 
@@ -83,28 +84,47 @@ export const CityHeaderBanner: React.FC<CityHeaderBannerProps> = ({
             </div>
           </div>
 
-          {/* Feature Highlights Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full md:w-auto">
-            <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800/80 backdrop-blur-md space-y-1.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
-                <MapPin className="w-4 h-4" />
-              </div>
-              <h4 className="text-xs font-bold text-white">Ethiopian Cities Direct</h4>
-              <p className="text-[11px] text-slate-400">Addis, Adama, Hawassa, Bale Robe, Bale Ginir, Asella...</p>
+          {/* Contact Us Direct Card */}
+          <div className="bg-slate-900/90 p-5 sm:p-6 rounded-3xl border border-emerald-500/30 shadow-2xl backdrop-blur-xl space-y-4 w-full md:w-80 shrink-0">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-400 border-b border-slate-800 pb-3">
+              <PhoneCall className="w-4 h-4 text-emerald-400" />
+              <span>ለበለጠ መረጃ (Contact Us)</span>
             </div>
 
-            <div className="bg-slate-900/80 p-4 rounded-2xl border border-slate-800/80 backdrop-blur-md space-y-1.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
-                <PhoneCall className="w-4 h-4" />
-              </div>
-              <h4 className="text-xs font-bold text-white">Direct Seller Contact</h4>
-              <p className="text-[11px] text-slate-400">Call local sellers directly on phone or WhatsApp</p>
+            <div className="space-y-3">
+              <a
+                href={`tel:${supportPhone}`}
+                className="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 transition-all group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold group-hover:scale-110 transition-transform shrink-0">
+                  <PhoneCall className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-bold text-slate-400">ስልክ ቁጥር (Phone)</p>
+                  <p className="text-xs sm:text-sm font-black text-white">{supportPhone}</p>
+                </div>
+              </a>
+
+              <a
+                href="https://t.me/natitg2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 transition-all group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold group-hover:scale-110 transition-transform shrink-0">
+                  <Send className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-bold text-slate-400">ቴሌግራም (Telegram)</p>
+                  <p className="text-xs sm:text-sm font-black text-sky-400">{telegramHandle}</p>
+                </div>
+              </a>
             </div>
           </div>
 
         </div>
 
-        {/* City Quick Filter Carousel/Pills */}
+        {/* City Quick Filter Pills */}
         <div className="space-y-3 pt-4 border-t border-slate-800/80">
           <div className="flex items-center justify-between text-xs font-bold text-slate-400">
             <span className="flex items-center gap-1.5 text-emerald-400 uppercase tracking-wider">
