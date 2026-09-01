@@ -49,15 +49,15 @@ export const Header: React.FC<HeaderProps> = ({
     : (siteSettings?.siteNameEn || 'Kelal Gebeya');
 
   return (
-    <header className="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+    <header className="sticky top-0 z-40 bg-[#09111e]/95 backdrop-blur-md border-b border-slate-800/80">
       
       {/* Top Banner Bar */}
-      <div className="bg-slate-900 border-b border-slate-800/80 px-4 py-1.5 text-xs font-semibold text-slate-300">
+      <div className="bg-[#0b192c] border-b border-slate-800/80 px-4 py-1.5 text-xs font-semibold text-slate-300">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           
           {/* Announcement text */}
           <div className="flex items-center gap-2 truncate">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="inline-block w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
             <span className="truncate">
               {lang === 'am' 
                 ? (siteSettings?.announcementAm || '🎉 ከሚፈልጉት ከተማ ፈጣን ግብይትን ይፈጽሙ') 
@@ -68,10 +68,10 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3">
             {/* Google Logged-In User Badge */}
             {authUser ? (
-              <div className="flex items-center gap-2 bg-slate-950 px-2.5 py-1 rounded-full border border-emerald-500/40 text-emerald-300 text-[11px]">
+              <div className="flex items-center gap-2 bg-slate-950 px-2.5 py-1 rounded-full border border-orange-500/40 text-orange-300 text-[11px]">
                 <img src={authUser.avatar} alt={authUser.name} className="w-4 h-4 rounded-full object-cover" />
                 <span className="font-bold truncate max-w-[120px]">{authUser.name}</span>
-                <span className="uppercase text-[9px] font-black px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-400">
+                <span className="uppercase text-[9px] font-black px-1.5 py-0.2 rounded bg-orange-500/20 text-orange-400">
                   {authUser.role}
                 </span>
                 <button
@@ -103,17 +103,17 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-white font-bold px-3 py-1 rounded-full border border-slate-700 transition-colors shadow-sm cursor-pointer"
               title="Change Language"
             >
-              <Globe className="w-3.5 h-3.5 text-emerald-400" />
+              <Globe className="w-3.5 h-3.5 text-orange-400" />
               <span>{lang === 'am' ? '🇪🇹 አማርኛ' : '🇬🇧 English'}</span>
             </button>
 
             {/* Role Switcher Pills (Public Users & Sellers) */}
-            <div className="flex items-center bg-slate-900 rounded-full border border-slate-800 p-0.5">
+            <div className="flex items-center bg-slate-950 rounded-full border border-slate-800 p-0.5">
               <button
                 onClick={() => onSelectRole('buyer')}
                 className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
                   activeRole === 'buyer'
-                    ? 'bg-emerald-500 text-slate-950 shadow-md'
+                    ? 'bg-orange-500 text-slate-950 shadow-md shadow-orange-500/20'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -130,7 +130,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
                 className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
                   activeRole === 'seller'
-                    ? 'bg-teal-500 text-slate-950 shadow-md'
+                    ? 'bg-sky-500 text-slate-950 shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -146,12 +146,12 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
-          {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => onSelectRole('buyer')}>
+          {/* Logo (Transparent Vector PNG - No Box Container) */}
+          <div className="flex items-center cursor-pointer group shrink-0" onClick={() => onSelectRole('buyer')}>
             <img
               src="/logo-full.png"
               alt="ቀላል ገበያ Kelal Gebeya"
-              className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105 drop-shadow-md"
+              className="h-12 sm:h-14 w-auto object-contain transition-transform group-hover:scale-105"
             />
           </div>
 
@@ -163,7 +163,7 @@ export const Header: React.FC<HeaderProps> = ({
               <select
                 value={selectedCity}
                 onChange={(e) => onSelectCity(e.target.value as EthiopianCityCode | 'all')}
-                className="bg-slate-800 text-slate-200 text-xs font-bold pl-8 pr-3 py-2.5 rounded-full border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                className="bg-slate-800/90 text-slate-200 text-xs font-bold pl-8 pr-3 py-2.5 rounded-full border border-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
               >
                 <option value="all">📍 {getTranslation(lang, 'allCities')}</option>
                 {ETHIOPIAN_CITIES.map((c) => (
@@ -172,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </option>
                 ))}
               </select>
-              <MapPin className="absolute left-2.5 top-3 w-4 h-4 text-emerald-400 pointer-events-none" />
+              <MapPin className="absolute left-2.5 top-3 w-4 h-4 text-orange-400 pointer-events-none" />
             </div>
 
             {/* Search Input */}
@@ -182,7 +182,7 @@ export const Header: React.FC<HeaderProps> = ({
                 placeholder={getTranslation(lang, 'searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                className="w-full bg-slate-800/90 text-slate-100 placeholder-slate-400 pl-10 pr-4 py-2.5 rounded-full border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 text-sm shadow-inner"
+                className="w-full bg-slate-800/90 text-slate-100 placeholder-slate-400 pl-10 pr-4 py-2.5 rounded-full border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-orange-500/50 text-sm shadow-inner"
               />
               <Search className="absolute left-3.5 top-3 w-4 h-4 text-slate-400" />
             </div>
@@ -190,7 +190,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           {/* Action Icons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             
             {/* Wishlist */}
             <button className="relative p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition-colors" title="Wishlist">
@@ -205,11 +205,11 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Cart Button */}
             <button
               onClick={onOpenCart}
-              className="relative flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2.5 rounded-xl font-bold shadow-lg shadow-emerald-500/25 transition-all hover:scale-105 active:scale-95"
+              className="relative flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-slate-950 px-4 py-2.5 rounded-xl font-bold shadow-lg shadow-orange-500/25 transition-all hover:scale-105 active:scale-95"
             >
               <ShoppingBag className="w-5 h-5" />
               <span className="hidden sm:inline font-semibold">{getTranslation(lang, 'cart')}</span>
-              <span className="bg-slate-950 text-emerald-400 px-2 py-0.5 rounded-full text-xs font-extrabold">
+              <span className="bg-slate-950 text-orange-400 px-2 py-0.5 rounded-full text-xs font-extrabold">
                 {cartCount}
               </span>
             </button>
@@ -253,7 +253,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => onSelectCategory('all')}
             className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
               selectedCategory === 'all'
-                ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
+                ? 'bg-orange-500 text-slate-950 shadow-md shadow-orange-500/20 font-bold'
                 : 'bg-slate-800/60 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-700/50'
             }`}
           >
@@ -272,7 +272,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={() => onSelectCategory(cat.id as CategoryType)}
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                     isActive
-                      ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 font-bold'
+                      ? 'bg-orange-500 text-slate-950 shadow-md shadow-orange-500/20 font-bold'
                       : 'bg-slate-800/60 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-700/50'
                   }`}
                 >

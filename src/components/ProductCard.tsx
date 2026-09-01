@@ -36,10 +36,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const cityName = cityInfo ? (lang === 'am' ? cityInfo.nameAm : cityInfo.nameEn) : product.city;
 
   return (
-    <div className="group relative bg-slate-800/80 rounded-2xl border border-slate-700/60 overflow-hidden shadow-lg hover:shadow-2xl hover:border-emerald-500/50 transition-all duration-300 flex flex-col">
+    <div className="group relative bg-slate-900/80 rounded-2xl border border-slate-800/80 overflow-hidden shadow-lg hover:shadow-2xl hover:border-orange-500/50 transition-all duration-300 flex flex-col">
       
       {/* Top Image Box */}
-      <div className="relative aspect-square overflow-hidden bg-slate-900">
+      <div className="relative aspect-square overflow-hidden bg-[#09111e]">
         <img
           src={product.image}
           alt={displayTitle}
@@ -50,12 +50,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Badges & Ethiopian City Location */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-          <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-slate-950/90 text-emerald-400 border border-slate-700/80 backdrop-blur-md shadow-md flex items-center gap-1">
-            <MapPin className="w-3 h-3 text-emerald-400" />
+          <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-slate-950/90 text-orange-400 border border-slate-800/80 backdrop-blur-md shadow-md flex items-center gap-1">
+            <MapPin className="w-3 h-3 text-orange-400" />
             <span>{cityName}</span>
           </span>
           {displayBadge && (
-            <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500 text-slate-950 shadow-md">
+            <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-orange-500 text-slate-950 shadow-md">
               {displayBadge}
             </span>
           )}
@@ -95,7 +95,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
         <div>
           <div className="flex items-center justify-between text-[11px] font-semibold text-slate-400">
-            <span className="uppercase text-emerald-400 font-bold">{product.category}</span>
+            <span className="uppercase text-orange-400 font-bold">{product.category}</span>
             <span className="truncate max-w-[130px] text-[10px] text-slate-400">
               {product.sellerName}
             </span>
@@ -103,7 +103,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           <h3
             onClick={() => onQuickView(product)}
-            className="text-base font-bold text-white mt-1 hover:text-emerald-400 transition-colors line-clamp-1 cursor-pointer"
+            className="text-base font-bold text-white mt-1 hover:text-orange-400 transition-colors line-clamp-1 cursor-pointer"
           >
             {displayTitle}
           </h3>
@@ -124,7 +124,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <div className="flex items-center justify-between gap-2">
             <div>
               <div className="text-lg font-extrabold text-white">
-                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-xs font-bold text-emerald-400">{getTranslation(lang, 'currencySymbol')}</span>
+                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-xs font-bold text-orange-400">{getTranslation(lang, 'currencySymbol')}</span>
               </div>
               {product.originalPrice && (
                 <div className="text-xs text-slate-400 line-through">
@@ -137,13 +137,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               onClick={() => onAddToCart(product)}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs transition-all ${
                 isInCart
-                  ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40'
-                  : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md'
+                  ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
+                  : 'bg-orange-500 hover:bg-orange-400 text-slate-950 shadow-md'
               }`}
             >
               {isInCart ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-teal-300" />
+                  <Check className="w-3.5 h-3.5 text-sky-300" />
                   <span>{getTranslation(lang, 'inCart')}</span>
                 </>
               ) : (
@@ -158,9 +158,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Contact Seller Button */}
           <button
             onClick={() => onContactSeller(product)}
-            className="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-950 text-emerald-400 hover:text-emerald-300 border border-slate-700/80 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+            className="w-full py-2 px-3 rounded-xl bg-slate-950 hover:bg-slate-900 text-orange-400 hover:text-orange-300 border border-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
           >
-            <PhoneCall className="w-3.5 h-3.5 text-emerald-400" />
+            <PhoneCall className="w-3.5 h-3.5 text-orange-400" />
             <span>{getTranslation(lang, 'contactSeller')}</span>
           </button>
 

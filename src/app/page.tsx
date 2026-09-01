@@ -476,13 +476,13 @@ export default function Home() {
         <>
           {/* Location Detection Toast Notification */}
           {detectedToast && (
-            <div className="bg-emerald-950/80 border-b border-emerald-800/60 px-4 py-2.5 text-xs font-semibold text-emerald-200 backdrop-blur-md flex items-center justify-between shadow-lg transition-all">
+            <div className="bg-orange-950/80 border-b border-orange-800/60 px-4 py-2.5 text-xs font-semibold text-orange-200 backdrop-blur-md flex items-center justify-between shadow-lg transition-all">
               <div className="flex items-center gap-2 max-w-7xl mx-auto w-full">
                 <span className="flex h-2 w-2 relative shrink-0">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                 </span>
-                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                <MapPin className="w-4 h-4 text-orange-400 shrink-0" />
                 <span>
                   {lang === 'am' ? (
                     <>ቦታዎ በራስ-ሰር ተለይቷል፡ <strong className="text-white underline">{detectedToast.cityNameAm}</strong> ({detectedToast.cityNameEn}) — የከተማ ማጣሪያው ባለበት ከተማ ዲፎልት ተደርጓል!</>
@@ -493,7 +493,7 @@ export default function Home() {
               </div>
               <button
                 onClick={() => setDetectedToast(null)}
-                className="p-1 hover:bg-emerald-900/50 rounded-lg text-emerald-400 hover:text-white transition-colors ml-2"
+                className="p-1 hover:bg-orange-900/50 rounded-lg text-orange-400 hover:text-white transition-colors ml-2"
                 title="Dismiss"
               >
                 <X className="w-4 h-4" />
@@ -522,7 +522,7 @@ export default function Home() {
               <div>
                 <h2 className="text-xl font-black text-white flex items-center gap-2">
                   <span>{getTranslation(lang, 'catalogTitle')}</span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-emerald-400 border border-slate-700">
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-orange-400 border border-slate-700">
                     {filteredProducts.length} {getTranslation(lang, 'itemsCount')}
                   </span>
                 </h2>
@@ -537,13 +537,13 @@ export default function Home() {
               {/* Sort Selection */}
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold whitespace-nowrap">
-                  <ArrowUpDown className="w-4 h-4 text-emerald-400" />
+                  <ArrowUpDown className="w-4 h-4 text-orange-400" />
                   <span>{getTranslation(lang, 'sortBy')}:</span>
                 </div>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'featured' | 'price-low' | 'price-high' | 'rating')}
-                  className="bg-slate-800 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer w-full sm:w-auto"
+                  className="bg-slate-800 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer w-full sm:w-auto"
                 >
                   <option value="featured">{getTranslation(lang, 'featured')}</option>
                   <option value="price-low">{getTranslation(lang, 'priceLowHigh')}</option>
@@ -570,7 +570,7 @@ export default function Home() {
                     setSelectedCategory('all');
                     setSelectedCity('all');
                   }}
-                  className="px-5 py-2.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-emerald-400 transition-colors"
+                  className="px-5 py-2.5 bg-orange-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-orange-400 transition-colors"
                 >
                   {getTranslation(lang, 'resetFilters')}
                 </button>
