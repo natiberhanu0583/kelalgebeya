@@ -19,7 +19,7 @@ import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole,
 import { getTranslation } from '../data/translations';
 import { ArrowUpDown, ShoppingBag, MapPin, CheckCircle2, Sparkles, X } from 'lucide-react';
 import { detectUserCity } from '../utils/location';
-import { fetchCloudData, pushCloudProducts, pushCloudSellers } from '../utils/cloudDb';
+import { fetchCloudData, pushCloudProducts, pushCloudSellers, pushCloudSiteSettings } from '../utils/cloudDb';
 
 export default function Home() {
   // Global State
@@ -36,7 +36,7 @@ export default function Home() {
   const [authTargetRole, setAuthTargetRole] = useState<'seller' | 'admin'>('seller');
   const [authUser, setAuthUser] = useState<{ name: string; email: string; avatar?: string; role: 'seller' | 'admin' } | null>(null);
 
-  // Restore authenticated user session from localStorage
+  // Restore authenticated user session from localStorage (keep initial activeRole as 'buyer' for app launch)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedUser = localStorage.getItem('kelal_gebeya_auth_user');
@@ -44,10 +44,6 @@ export default function Home() {
         try {
           const parsed = JSON.parse(savedUser);
           setAuthUser(parsed);
-          // Automatically restore role view if logged in
-          if (parsed.role) {
-            setActiveRole(parsed.role);
-          }
         } catch (e) {
           console.error('Failed to parse saved auth user:', e);
         }
@@ -216,6 +212,7 @@ export default function Home() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('kelal_gebeya_site_settings', JSON.stringify(newSettings));
     }
+    pushCloudSiteSettings(newSettings);
   };
 
   const handleUpdateAdminProfile = (newProfile: AdminProfile) => {

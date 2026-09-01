@@ -120,3 +120,32 @@ export async function pushCloudSellers(sellers: Seller[]): Promise<boolean> {
     return false;
   }
 }
+
+// Sync updated siteSettings to central cloud database
+export async function pushCloudSiteSettings(siteSettings: SiteSettings): Promise<boolean> {
+  try {
+    const currentCloud = await fetchCloudData();
+    const productsToSave = currentCloud?.products || mockProducts;
+    const sellersToSave = currentCloud?.sellers || initialSellers;
+
+    const bodyData = {
+      name: 'kelal_gebeya_database',
+      data: {
+        products: productsToSave,
+        sellers: sellersToSave,
+        siteSettings: siteSettings,
+      },
+    };
+
+    const res = await fetch(CLOUD_ENDPOINT, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bodyData),
+    });
+
+    return res.ok;
+  } catch (err) {
+    console.error('Failed to push site settings to central cloud database:', err);
+    return false;
+  }
+}
