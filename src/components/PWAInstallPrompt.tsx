@@ -80,8 +80,8 @@ export const PWAInstallPrompt: React.FC = () => {
             
             <div className="flex items-start gap-3">
               {/* App Icon */}
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-md shadow-emerald-600/20 flex-shrink-0">
-                <Smartphone className="w-7 h-7 text-white" />
+              <div className="w-14 h-14 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-md shadow-slate-200/80 p-1.5 flex items-center justify-center shrink-0">
+                <img src="/logo-full.png" alt="ቀላል ገበያ App Logo" className="w-full h-full object-contain" />
               </div>
 
               <div className="flex-1 min-w-0">

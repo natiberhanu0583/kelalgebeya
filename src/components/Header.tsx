@@ -133,24 +133,14 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-20 gap-3">
           
-          {/* Logo Container */}
+          {/* Official Brand Logo Container */}
           <div className="flex items-center cursor-pointer group shrink-0" onClick={() => onSelectRole('buyer')}>
-            <div className="px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60 group-hover:shadow-lg group-hover:shadow-orange-500/25 group-hover:border-orange-200 transition-all duration-300 flex items-center gap-2">
-              {/* Desktop Full Logo */}
+            <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60 group-hover:shadow-lg group-hover:shadow-orange-500/25 group-hover:border-orange-200 transition-all duration-300">
               <img
                 src="/logo-full.png"
                 alt="ቀላል ገበያ Kelal Gebeya"
-                className="hidden sm:block h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+                className="h-8 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
               />
-              {/* Mobile App Icon + Brand Name */}
-              <div className="flex sm:hidden items-center gap-1.5">
-                <img
-                  src="/logo-icon.png"
-                  alt="ቀላል ገበያ Logo Icon"
-                  className="h-7 w-auto object-contain transition-transform group-hover:scale-105"
-                />
-                <span className="text-xs font-black text-slate-900 tracking-tight font-sans">ቀላል ገበያ</span>
-              </div>
             </div>
           </div>
 
