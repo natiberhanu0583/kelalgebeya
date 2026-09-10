@@ -178,30 +178,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-md bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto text-slate-900">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Modal Header */}
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto shadow-xs">
             {isSeller ? (
-              <Store className="w-7 h-7 text-emerald-400" />
+              <Store className="w-7 h-7 text-emerald-600" />
             ) : (
-              <ShieldCheck className="w-7 h-7 text-indigo-400" />
+              <ShieldCheck className="w-7 h-7 text-indigo-600" />
             )}
           </div>
-          <h2 className="text-xl font-black text-white">
+          <h2 className="text-xl font-black text-slate-900">
             {lang === 'am' ? roleTitleAm : roleTitleEn}
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             {isSeller
               ? (lang === 'am' ? 'ምርቶችዎን ለማስተዋወቅ እና ለመሸጥ ይግቡ' : 'Access your seller studio to manage & post products')
               : (lang === 'am' ? 'የስርዓቱን ደህንነት ለመጠበቅ በአድሚን ኮድ ይግቡ' : 'Strict Security Protected Master Admin System')}
@@ -210,14 +210,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Seller Switcher (Login vs Register) */}
         {isSeller && (
-          <div className="flex items-center bg-slate-950 p-1 rounded-2xl border border-slate-800 text-xs font-bold">
+          <div className="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200 text-xs font-bold">
             <button
               type="button"
               onClick={() => { setMode('login'); setErrorMsg(null); }}
-              className={`flex-1 py-2 rounded-xl transition-all ${
+              className={`flex-1 py-2 rounded-xl transition-all cursor-pointer ${
                 mode === 'login'
-                  ? 'bg-teal-500 text-slate-950 font-extrabold shadow-md'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white font-extrabold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               {lang === 'am' ? '🔑 ይግቡ (Log In)' : 'Log In'}
@@ -225,10 +225,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <button
               type="button"
               onClick={() => { setMode('register'); setErrorMsg(null); }}
-              className={`flex-1 py-2 rounded-xl transition-all ${
+              className={`flex-1 py-2 rounded-xl transition-all cursor-pointer ${
                 mode === 'register'
-                  ? 'bg-teal-500 text-slate-950 font-extrabold shadow-md'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white font-extrabold shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               {lang === 'am' ? '✨ አዲስ ሻጭ ሁን (Register)' : 'Register Store'}
@@ -238,14 +238,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Auth Method Switcher Tabs */}
         {mode === 'login' && (
-          <div className="flex items-center bg-slate-950 p-1 rounded-2xl border border-slate-800 text-xs font-bold">
+          <div className="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200 text-xs font-bold">
             <button
               type="button"
               onClick={() => setAuthMethod('password')}
               className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 authMethod === 'password'
-                  ? 'bg-emerald-500 text-slate-950 shadow-md font-extrabold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <KeyRound className="w-3.5 h-3.5" />
@@ -257,8 +257,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               onClick={() => setAuthMethod('google')}
               className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 authMethod === 'google'
-                  ? 'bg-emerald-500 text-slate-950 shadow-md font-extrabold'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
+                  : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -274,7 +274,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="bg-rose-500/10 border border-rose-500/40 p-3 rounded-2xl text-xs text-rose-400 font-semibold flex items-center gap-2">
+          <div className="bg-rose-50 border border-rose-200 p-3 rounded-2xl text-xs text-rose-600 font-semibold flex items-center gap-2">
             <span>{errorMsg}</span>
           </div>
         )}
@@ -288,7 +288,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <>
                 {/* Business Name */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
                     {lang === 'am' ? 'የንግድ ስም (Business / Shop Name)' : 'Shop Name'}
                   </label>
                   <div className="relative">
@@ -297,16 +297,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={businessName}
                       onChange={(e) => setBusinessName(e.target.value)}
                       placeholder="ለምሳሌ፡ ባሌ ሮቤ የኤሌክትሮኒክስ ሱቅ"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                      className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
                       required
                     />
-                    <Building className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                    <Building className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                   </div>
                 </div>
 
                 {/* Owner Full Name */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
                     {lang === 'am' ? 'የባለቤቱ ሙሉ ስም' : 'Owner Full Name'}
                   </label>
                   <div className="relative">
@@ -315,23 +315,23 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       placeholder="ለምሳሌ፡ አበበ ከበደ"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                      className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
                       required
                     />
-                    <Store className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                    <Store className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                   </div>
                 </div>
 
                 {/* City Dropdown */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
                     {lang === 'am' ? 'ሱቁ የሚገኝበት ከተማ' : 'City Location'}
                   </label>
                   <div className="relative">
                     <select
                       value={city}
                       onChange={(e) => setCity(e.target.value as EthiopianCityCode)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 cursor-pointer"
+                      className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-500 cursor-pointer"
                     >
                       {ETHIOPIAN_CITIES.map((c) => (
                         <option key={c.code} value={c.code}>
@@ -339,13 +339,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         </option>
                       ))}
                     </select>
-                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-emerald-400" />
+                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-emerald-600" />
                   </div>
                 </div>
 
                 {/* Phone Number */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
                     {lang === 'am' ? 'ስልክ ቁጥር (+251...)' : 'Phone Number'}
                   </label>
                   <div className="relative">
@@ -354,10 +354,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+251911223344"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                      className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
                       required
                     />
-                    <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                    <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                   </div>
                 </div>
               </>
@@ -365,7 +365,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
             {/* Email Field */}
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 {lang === 'am' ? 'ኢሜይል አድራሻ (Email)' : 'Email Address'}
               </label>
               <div className="relative">
@@ -374,16 +374,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={isSeller ? 'seller@domain.com' : 'admin@kelalgebeya.com'}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
                   required
                 />
-                <Mail className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                <Mail className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
               </div>
             </div>
 
             {/* Password Field */}
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 {lang === 'am' ? 'የይለፍ ቃል (Password)' : 'Password'}
               </label>
               <div className="relative">
@@ -392,14 +392,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-9 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl pl-9 pr-9 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500"
                   required
                 />
-                <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-slate-500 hover:text-white"
+                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-700"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -410,10 +410,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer mt-2"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl transition-colors text-xs flex items-center justify-center gap-2 shadow-md cursor-pointer mt-2"
             >
               {isLoading ? (
-                <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
                 <>
                   {mode === 'register' ? (
@@ -440,17 +440,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               type="button"
               onClick={() => handleGoogleSignIn('Natnael Berhanu', 'natiberhanu0583@gmail.com', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80')}
               disabled={isLoading}
-              className="w-full flex items-center justify-between p-3.5 bg-slate-950 hover:bg-slate-800 rounded-2xl border border-slate-800 transition-all cursor-pointer"
+              className="w-full flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100 rounded-2xl border border-slate-200 transition-all cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <img
                   src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
                   alt="Natnael"
-                  className="w-10 h-10 rounded-full object-cover border border-slate-700"
+                  className="w-10 h-10 rounded-full object-cover border border-slate-300"
                 />
                 <div className="text-left">
-                  <p className="text-xs font-bold text-white">Natnael Berhanu</p>
-                  <p className="text-[11px] text-slate-400">natiberhanu0583@gmail.com</p>
+                  <p className="text-xs font-bold text-slate-900">Natnael Berhanu</p>
+                  <p className="text-[11px] text-slate-500">natiberhanu0583@gmail.com</p>
                 </div>
               </div>
             </button>

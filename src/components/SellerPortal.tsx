@@ -110,24 +110,30 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
   const StatusIcon = currentStatus.icon;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 animate-fadeIn text-white">
+    <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 animate-fadeIn text-slate-900">
       
       {/* Header Bar */}
-      <div className="bg-slate-900/80 p-6 sm:p-8 rounded-3xl border border-slate-800 backdrop-blur-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs uppercase font-extrabold tracking-wider text-emerald-400">
+          <span className="text-xs uppercase font-extrabold tracking-wider text-emerald-600">
             {currentSeller?.businessName || currentSeller?.name || 'የሻጭ ገጽ'}
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-white mt-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
             {getTranslation(lang, 'sellerStudioTitle')}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
             {getTranslation(lang, 'sellerStudioSubtitle')}
           </p>
         </div>
 
         {/* Subscription Status Card */}
-        <div className={`p-4 rounded-2xl border flex items-center gap-3 ${currentStatus.color}`}>
+        <div className={`p-4 rounded-2xl border flex items-center gap-3 ${
+          sellerStatus === 'active'
+            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            : sellerStatus === 'due_soon'
+            ? 'bg-amber-50 text-amber-700 border-amber-200'
+            : 'bg-rose-50 text-rose-700 border-rose-200'
+        }`}>
           <StatusIcon className="w-6 h-6 flex-shrink-0" />
           <div>
             <p className="text-[10px] uppercase font-bold tracking-wider opacity-80">
@@ -141,7 +147,7 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
           {sellerStatus !== 'active' && (
             <button
               onClick={() => onPayRent(currentSeller.id)}
-              className="ml-2 px-3 py-1.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-emerald-400 transition-colors shadow-md cursor-pointer"
+              className="ml-2 px-3 py-1.5 bg-emerald-600 text-white font-bold rounded-xl text-xs hover:bg-emerald-700 transition-colors shadow-xs cursor-pointer"
             >
               {getTranslation(lang, 'payRentNow')}
             </button>
@@ -153,16 +159,16 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Upload Form */}
-        <div className="lg:col-span-7 bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-6">
-          <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-            <PackagePlus className="w-6 h-6 text-emerald-400" />
-            <h3 className="text-lg font-bold text-white">
+        <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+          <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
+            <PackagePlus className="w-6 h-6 text-emerald-600" />
+            <h3 className="text-lg font-bold text-slate-900">
               {getTranslation(lang, 'uploadNewProduct')}
             </h3>
           </div>
 
           {publishSuccess && (
-            <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl text-xs text-emerald-400 font-semibold flex items-center gap-2 animate-fadeIn">
+            <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-xs text-emerald-700 font-semibold flex items-center gap-2 animate-fadeIn">
               <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
               <span>🎉 ምርቱ በስኬት ተለጥፏል! አሁን በሁሉም የኢትዮጵያ ከተሞች ገበያ ላይ ይገኛል።</span>
             </div>
@@ -172,7 +178,7 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   {getTranslation(lang, 'productTitleEn')} *
                 </label>
                 <input
@@ -181,12 +187,12 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
                   placeholder="e.g. Samsung Galaxy S24 Ultra"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   {getTranslation(lang, 'productTitleAm')}
                 </label>
                 <input
@@ -194,20 +200,20 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
                   placeholder="ምሳሌ፡ ሳምሰንግ ስልክ"
                   value={nameAm}
                   onChange={(e) => setNameAm(e.target.value)}
-                  className="w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   {getTranslation(lang, 'category')}
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                  className="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
                 >
                   {(categories && categories.length > 0
                     ? categories.filter((c) => c.isActive)
@@ -228,7 +234,7 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   {getTranslation(lang, 'price')} (ብር ETB) *
                 </label>
                 <input
@@ -238,18 +244,18 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
                   placeholder="e.g. 6500"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  className="w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   {getTranslation(lang, 'cityLocation')}
                 </label>
                 <select
                   value={city}
                   onChange={(e) => setCity(e.target.value as EthiopianCityCode)}
-                  className="w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                  className="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
                 >
                   {ETHIOPIAN_CITIES.map((c) => (
                     <option key={c.code} value={c.code}>
@@ -262,45 +268,45 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
 
             {/* Direct Device Image File Upload Dropzone */}
             <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-200">
+              <label className="block text-xs font-bold text-slate-700">
                 📸 የምርቱ ፎቶ (Direct Device Photo Upload) *
               </label>
 
               {image ? (
-                <div className="relative group rounded-2xl overflow-hidden border-2 border-emerald-500/60 bg-slate-950 p-2 flex items-center justify-between shadow-lg">
+                <div className="relative group rounded-2xl overflow-hidden border-2 border-emerald-500/60 bg-slate-50 p-2 flex items-center justify-between shadow-xs">
                   <div className="flex items-center gap-3">
                     <img
                       src={image}
                       alt="Selected product photo"
-                      className="w-16 h-16 object-cover rounded-xl border border-slate-700 shadow-md"
+                      className="w-16 h-16 object-cover rounded-xl border border-slate-200 shadow-xs"
                     />
                     <div>
-                      <p className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <p className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                         <span>ፎቶው በስኬት ተመርጧል!</span>
                       </p>
-                      <p className="text-[11px] text-slate-400 mt-0.5">ምርቱን ሲለቁ ይህ ፎቶ በገበያው ላይ ይታያል።</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">ምርቱን ሲለቁ ይህ ፎቶ በገበያው ላይ ይታያል።</p>
                     </div>
                   </div>
 
                   <button
                     type="button"
                     onClick={() => setImage('')}
-                    className="p-2 bg-rose-500/20 hover:bg-rose-500 text-rose-400 hover:text-white rounded-xl text-xs font-bold transition-all cursor-pointer mr-2 flex items-center gap-1"
+                    className="p-2 bg-rose-100 hover:bg-rose-200 text-rose-600 rounded-xl text-xs font-bold transition-all cursor-pointer mr-2 flex items-center gap-1"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>አስወግድ</span>
                   </button>
                 </div>
               ) : (
-                <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-emerald-500/40 hover:border-emerald-400 bg-slate-950/60 hover:bg-slate-950/90 rounded-2xl cursor-pointer transition-all p-4 text-center group shadow-inner">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <Upload className="w-6 h-6 text-emerald-400" />
+                <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-slate-300 hover:border-emerald-500 bg-slate-50 hover:bg-slate-100/80 rounded-2xl cursor-pointer transition-all p-4 text-center group shadow-inner">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Upload className="w-6 h-6 text-emerald-600" />
                   </div>
-                  <p className="text-xs font-bold text-white">
+                  <p className="text-xs font-bold text-slate-900">
                     ከስልክ ወይም ከኮምፒውተር ፋይል ፎቶ ለመምረጥ እዚህ ይጫኑ
                   </p>
-                  <p className="text-[11px] text-slate-400 mt-1">
+                  <p className="text-[11px] text-slate-500 mt-1">
                     (PNG, JPG, WEBP, GIF — ከፋይል አደራጅ/Gallery ቀጥታ መምረጥ ይችላሉ)
                   </p>
                   <input
@@ -319,14 +325,14 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
                   placeholder="ወይም የፎቶ ሊንክ ማስገባት ከፈለጉ እዚህ ይጻፉ (Image URL)..."
                   value={image}
                   onChange={(e) => setImage(e.target.value)}
-                  className="w-full bg-slate-950 text-white px-3.5 py-2 rounded-xl border border-slate-800 text-[11px] placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-white text-slate-900 px-3.5 py-2 rounded-xl border border-slate-300 text-[11px] placeholder-slate-400 focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
             {/* Product Description */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 ስለ ምርቱ ማብራሪያ (Product Description)
               </label>
               <textarea
@@ -334,14 +340,14 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
                 placeholder="ስለ ምርቱ ሁኔታ፣ ጥራት እና ዝርዝር መረጃ እዚህ ይጻፉ..."
                 value={descriptionAm}
                 onChange={(e) => { setDescriptionAm(e.target.value); setDescription(e.target.value); }}
-                className="w-full bg-slate-800 text-white px-3.5 py-2.5 rounded-xl border border-slate-700 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full bg-white text-slate-900 px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer mt-4"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-md cursor-pointer mt-4"
             >
               <PlusCircle className="w-4 h-4" />
               <span>ምርቱን በገበያ ላይ ልቀቅ (Publish Product)</span>
@@ -350,40 +356,40 @@ export const SellerPortal: React.FC<SellerPortalProps> = ({
         </div>
 
         {/* Seller's Active Listings Table */}
-        <div className="lg:col-span-5 bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <h3 className="text-base font-bold text-white">
+        <div className="lg:col-span-5 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4 text-slate-900">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+            <h3 className="text-base font-bold text-slate-900">
               የእርስዎ የተለቀቁ ምርቶች ({sellerProducts.length})
             </h3>
-            <span className="text-xs text-emerald-400 font-bold">ለገዢዎች የሚታዩ</span>
+            <span className="text-xs text-emerald-600 font-bold">ለገዢዎች የሚታዩ</span>
           </div>
 
           {sellerProducts.length === 0 ? (
             <div className="text-center py-12 space-y-3">
-              <ImageIcon className="w-12 h-12 text-slate-600 mx-auto" />
-              <p className="text-xs text-slate-400">እስካሁን የለቀቁት ምርት የለም። ከግራ በኩል የመጀመሪያ ምርትዎን ይልቀቁ!</p>
+              <ImageIcon className="w-12 h-12 text-slate-400 mx-auto" />
+              <p className="text-xs text-slate-500">እስካሁን የለቀቁት ምርት የለም። ከግራ በኩል የመጀመሪያ ምርትዎን ይልቀቁ!</p>
             </div>
           ) : (
             <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
               {sellerProducts.map((p) => (
                 <div
                   key={p.id}
-                  className="flex items-center gap-3 bg-slate-950 p-3 rounded-2xl border border-slate-800 hover:border-slate-700 transition-all"
+                  className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all"
                 >
                   <img
                     src={p.image}
                     alt={p.name}
-                    className="w-14 h-14 object-cover rounded-xl border border-slate-800"
+                    className="w-14 h-14 object-cover rounded-xl border border-slate-200"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-white truncate">{lang === 'am' ? (p.nameAm || p.name) : p.name}</p>
-                    <p className="text-xs text-emerald-400 font-black">{p.price.toLocaleString()} ETB</p>
-                    <p className="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
-                      <MapPin className="w-3 h-3 text-slate-500" />
+                    <p className="text-xs font-bold text-slate-900 truncate">{lang === 'am' ? (p.nameAm || p.name) : p.name}</p>
+                    <p className="text-xs text-emerald-600 font-black">{p.price.toLocaleString()} ETB</p>
+                    <p className="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-3 h-3 text-slate-400" />
                       <span>{p.city}</span>
                     </p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
                     LIVE
                   </span>
                 </div>

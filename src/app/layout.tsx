@@ -37,7 +37,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className="font-sans antialiased bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-slate-950">
+      <body className="font-sans antialiased bg-slate-50 text-slate-900 selection:bg-emerald-500 selection:text-white">
         {children}
       </body>
     </html>

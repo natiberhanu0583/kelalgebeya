@@ -393,22 +393,21 @@ export default function Home() {
 
   const handleRegisterSeller = (newSeller: Seller) => {
     setSellers((prev) => {
-      const updated = [newSeller, ...prev];
+      const updated: Seller[] = [newSeller, ...prev];
       if (typeof window !== 'undefined') {
         localStorage.setItem('kelal_gebeya_sellers', JSON.stringify(updated));
       }
       pushCloudSellers(updated);
       return updated;
     });
-    setCurrentSeller(newSeller);
   };
 
   // Admin Handlers (Block/Unblock & Record Rent Payment)
   const handleToggleBlockSeller = (sellerId: string) => {
     setSellers((prev) => {
-      const updated = prev.map((s) => {
+      const updated: Seller[] = prev.map((s) => {
         if (s.id === sellerId) {
-          const newStatus = s.subscriptionStatus === 'blocked' ? 'active' : 'blocked';
+          const newStatus: Seller['subscriptionStatus'] = s.subscriptionStatus === 'blocked' ? 'active' : 'blocked';
           return { ...s, subscriptionStatus: newStatus };
         }
         return s;
@@ -423,11 +422,11 @@ export default function Home() {
 
   const handleRecordRentPayment = (sellerId: string) => {
     setSellers((prev) => {
-      const updated = prev.map((s) => {
+      const updated: Seller[] = prev.map((s) => {
         if (s.id === sellerId) {
           return {
             ...s,
-            subscriptionStatus: 'active',
+            subscriptionStatus: 'active' as const,
             rentAmount: siteSettings.monthlyRentAmount,
             dueDate: '2026-09-30' // Next month's due date
           };
@@ -445,7 +444,7 @@ export default function Home() {
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-orange-500 selection:text-white font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-orange-500 selection:text-white font-sans">
       
       {/* Animated Brand Splash Intro */}
       <AppSplashIntro />
@@ -476,24 +475,24 @@ export default function Home() {
         <>
           {/* Location Detection Toast Notification */}
           {detectedToast && (
-            <div className="bg-orange-950/80 border-b border-orange-800/60 px-4 py-2.5 text-xs font-semibold text-orange-200 backdrop-blur-md flex items-center justify-between shadow-lg transition-all">
+            <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5 text-xs font-semibold text-amber-900 flex items-center justify-between shadow-sm transition-all">
               <div className="flex items-center gap-2 max-w-7xl mx-auto w-full">
                 <span className="flex h-2 w-2 relative shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                 </span>
-                <MapPin className="w-4 h-4 text-orange-400 shrink-0" />
+                <MapPin className="w-4 h-4 text-orange-600 shrink-0" />
                 <span>
                   {lang === 'am' ? (
-                    <>ቦታዎ በራስ-ሰር ተለይቷል፡ <strong className="text-white underline">{detectedToast.cityNameAm}</strong> ({detectedToast.cityNameEn}) — የከተማ ማጣሪያው ባለበት ከተማ ዲፎልት ተደርጓል!</>
+                    <>ቦታዎ በራስ-ሰር ተለይቷል፡ <strong className="text-slate-900 underline">{detectedToast.cityNameAm}</strong> ({detectedToast.cityNameEn}) — የከተማ ማጣሪያው ባለበት ከተማ ዲፎልት ተደርጓል!</>
                   ) : (
-                    <>Location detected: <strong className="text-white underline">{detectedToast.cityNameEn}</strong> ({detectedToast.cityNameAm}) — City filter updated automatically!</>
+                    <>Location detected: <strong className="text-slate-900 underline">{detectedToast.cityNameEn}</strong> ({detectedToast.cityNameAm}) — City filter updated automatically!</>
                   )}
                 </span>
               </div>
               <button
                 onClick={() => setDetectedToast(null)}
-                className="p-1 hover:bg-orange-900/50 rounded-lg text-orange-400 hover:text-white transition-colors ml-2"
+                className="p-1 hover:bg-amber-100 rounded-lg text-amber-700 hover:text-slate-900 transition-colors ml-2"
                 title="Dismiss"
               >
                 <X className="w-4 h-4" />
@@ -517,16 +516,16 @@ export default function Home() {
           <main id="catalog-section" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
             
             {/* Filter & Controls Bar */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-900/60 p-4 sm:px-6 sm:py-4 rounded-2xl border border-slate-800 backdrop-blur-md">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 sm:px-6 sm:py-4 rounded-2xl border border-slate-200 shadow-sm">
               
               <div>
-                <h2 className="text-xl font-black text-white flex items-center gap-2">
+                <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
                   <span>{getTranslation(lang, 'catalogTitle')}</span>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-orange-400 border border-slate-700">
+                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-50 text-orange-600 border border-orange-200">
                     {filteredProducts.length} {getTranslation(lang, 'itemsCount')}
                   </span>
                 </h2>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {selectedCity !== 'all' && `📍 City Filter Active (${selectedCity}) | `}
                   {selectedCategory === 'all'
                     ? getTranslation(lang, 'allCategories')
@@ -536,14 +535,14 @@ export default function Home() {
 
               {/* Sort Selection */}
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold whitespace-nowrap">
-                  <ArrowUpDown className="w-4 h-4 text-orange-400" />
+                <div className="flex items-center gap-2 text-xs text-slate-600 font-semibold whitespace-nowrap">
+                  <ArrowUpDown className="w-4 h-4 text-orange-500" />
                   <span>{getTranslation(lang, 'sortBy')}:</span>
                 </div>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'featured' | 'price-low' | 'price-high' | 'rating')}
-                  className="bg-slate-800 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer w-full sm:w-auto"
+                  className="bg-slate-50 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:bg-white cursor-pointer w-full sm:w-auto"
                 >
                   <option value="featured">{getTranslation(lang, 'featured')}</option>
                   <option value="price-low">{getTranslation(lang, 'priceLowHigh')}</option>
@@ -556,12 +555,12 @@ export default function Home() {
 
             {/* Product Grid */}
             {filteredProducts.length === 0 ? (
-              <div className="text-center py-20 bg-slate-900/40 rounded-3xl border border-slate-800/80 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto text-slate-500">
+              <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
                   <ShoppingBag className="w-8 h-8" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-200">{getTranslation(lang, 'noProducts')}</h3>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                <h3 className="text-lg font-bold text-slate-800">{getTranslation(lang, 'noProducts')}</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
                   {getTranslation(lang, 'noProductsDesc')}
                 </p>
                 <button
@@ -570,7 +569,7 @@ export default function Home() {
                     setSelectedCategory('all');
                     setSelectedCity('all');
                   }}
-                  className="px-5 py-2.5 bg-orange-500 text-slate-950 font-bold rounded-xl text-xs hover:bg-orange-400 transition-colors"
+                  className="px-5 py-2.5 bg-orange-500 text-white font-bold rounded-xl text-xs hover:bg-orange-600 transition-colors shadow-md shadow-orange-500/20"
                 >
                   {getTranslation(lang, 'resetFilters')}
                 </button>

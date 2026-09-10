@@ -58,37 +58,37 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
   const roleTitleEn = isSeller ? 'Seller Studio Portal' : 'Central Admin Dashboard';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-md bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6 text-slate-900">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Modal Header */}
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/10">
+          <div className="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto shadow-xs">
             {isSeller ? (
-              <Store className="w-8 h-8 text-emerald-400" />
+              <Store className="w-8 h-8 text-emerald-600" />
             ) : (
-              <ShieldCheck className="w-8 h-8 text-indigo-400" />
+              <ShieldCheck className="w-8 h-8 text-indigo-600" />
             )}
           </div>
-          <h2 className="text-xl font-black text-white">
+          <h2 className="text-xl font-black text-slate-900">
             {lang === 'am' ? 'በ Google አካውንት ይግቡ' : 'Sign in with Google'}
           </h2>
-          <p className="text-xs font-semibold text-emerald-400">
+          <p className="text-xs font-semibold text-emerald-600">
             {lang === 'am' ? roleTitleAm : roleTitleEn}
           </p>
         </div>
 
         {/* Official Google Brand Button */}
         <div className="space-y-3">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">
+          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider text-center">
             {lang === 'am' ? 'የጎግል አካውንትዎን ይምረጡ' : 'Choose a Google Account'}
           </p>
 
@@ -102,27 +102,27 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
                   disabled={isLoading}
                   className={`w-full flex items-center justify-between p-3.5 rounded-2xl border transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-emerald-950/60 border-emerald-500/80 shadow-md shadow-emerald-500/10'
-                      : 'bg-slate-950/80 hover:bg-slate-800/80 border-slate-800 hover:border-slate-700'
+                      ? 'bg-emerald-50 border-emerald-500 shadow-xs'
+                      : 'bg-slate-50 hover:bg-slate-100 border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <img
                       src={acc.avatar}
                       alt={acc.name}
-                      className="w-10 h-10 rounded-full object-cover border border-slate-700"
+                      className="w-10 h-10 rounded-full object-cover border border-slate-300"
                     />
                     <div className="text-left">
-                      <p className="text-xs font-extrabold text-white flex items-center gap-1">
+                      <p className="text-xs font-extrabold text-slate-900 flex items-center gap-1">
                         <span>{acc.name}</span>
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 fill-blue-400/20" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-500 fill-blue-500/20" />
                       </p>
-                      <p className="text-[11px] text-slate-400">{acc.email}</p>
+                      <p className="text-[11px] text-slate-500">{acc.email}</p>
                     </div>
                   </div>
 
                   {isSelected ? (
-                    <div className="w-5 h-5 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
                   ) : (
                     <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
                       <path
@@ -150,11 +150,11 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
         </div>
 
         {/* Custom Google Account Login Option */}
-        <div className="pt-2 text-center border-t border-slate-800">
+        <div className="pt-2 text-center border-t border-slate-200">
           <button
             onClick={() => handleGoogleSignIn(mockGoogleAccounts[0])}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 bg-white text-slate-900 font-bold px-4 py-3 rounded-2xl hover:bg-slate-100 transition-colors text-xs cursor-pointer shadow-md"
+            className="w-full flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-3 rounded-2xl border border-slate-200 transition-colors text-xs cursor-pointer shadow-xs"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
@@ -180,7 +180,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
 
         {/* Security Badge Footer */}
         <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 font-semibold pt-1">
-          <Lock className="w-3.5 h-3.5 text-emerald-400" />
+          <Lock className="w-3.5 h-3.5 text-emerald-600" />
           <span>{lang === 'am' ? 'በ Google OAuth 2.0 የተጠበቀ አውተንቲኬሽን' : 'Protected by Google OAuth 2.0 Security'}</span>
         </div>
 

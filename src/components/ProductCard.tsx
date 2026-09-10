@@ -36,31 +36,31 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const cityName = cityInfo ? (lang === 'am' ? cityInfo.nameAm : cityInfo.nameEn) : product.city;
 
   return (
-    <div className="group relative bg-slate-900/80 rounded-2xl border border-slate-800/80 overflow-hidden shadow-lg hover:shadow-2xl hover:border-orange-500/50 transition-all duration-300 flex flex-col">
+    <div className="group relative bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-orange-400/80 transition-all duration-300 flex flex-col">
       
       {/* Top Image Box */}
-      <div className="relative aspect-square overflow-hidden bg-[#09111e]">
+      <div className="relative aspect-square overflow-hidden bg-slate-100">
         <img
           src={product.image}
           alt={displayTitle}
           className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
         />
 
-        <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/40 transition-colors" />
+        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/20 transition-colors" />
 
         {/* Badges & Ethiopian City Location */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-          <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-slate-950/90 text-orange-400 border border-slate-800/80 backdrop-blur-md shadow-md flex items-center gap-1">
-            <MapPin className="w-3 h-3 text-orange-400" />
+          <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-white/95 text-orange-600 border border-slate-200 backdrop-blur-md shadow-xs flex items-center gap-1">
+            <MapPin className="w-3 h-3 text-orange-500" />
             <span>{cityName}</span>
           </span>
           {displayBadge && (
-            <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-orange-500 text-slate-950 shadow-md">
+            <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-orange-500 text-white shadow-xs">
               {displayBadge}
             </span>
           )}
           {discountPercentage > 0 && (
-            <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-rose-500 text-white shadow-md">
+            <span className="px-2.5 py-1 rounded-lg text-[10px] font-extrabold uppercase tracking-wider bg-rose-500 text-white shadow-xs">
               -{discountPercentage}% OFF
             </span>
           )}
@@ -71,8 +71,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           onClick={() => onToggleWishlist(product)}
           className={`absolute top-3 right-3 p-2 rounded-xl backdrop-blur-md z-10 transition-all ${
             isWishlisted
-              ? 'bg-rose-500 text-white shadow-lg'
-              : 'bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-700/60'
+              ? 'bg-rose-500 text-white shadow-md'
+              : 'bg-white/80 text-slate-600 hover:text-slate-900 hover:bg-white border border-slate-200'
           }`}
           title="Add to Wishlist"
         >
@@ -83,9 +83,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div className="absolute inset-x-4 bottom-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button
             onClick={() => onQuickView(product)}
-            className="w-full py-2.5 px-4 bg-slate-900/90 hover:bg-slate-900 text-slate-200 hover:text-white text-xs font-bold rounded-xl backdrop-blur-md border border-slate-700/80 flex items-center justify-center gap-2 shadow-lg transition-all"
+            className="w-full py-2.5 px-4 bg-white/95 hover:bg-white text-slate-800 hover:text-slate-900 text-xs font-bold rounded-xl backdrop-blur-md border border-slate-200 flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="w-4 h-4 text-orange-500" />
             <span>{getTranslation(lang, 'quickView')}</span>
           </button>
         </div>
@@ -94,37 +94,37 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Card Details Body */}
       <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
         <div>
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-400">
-            <span className="uppercase text-orange-400 font-bold">{product.category}</span>
-            <span className="truncate max-w-[130px] text-[10px] text-slate-400">
+          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500">
+            <span className="uppercase text-orange-600 font-bold">{product.category}</span>
+            <span className="truncate max-w-[130px] text-[10px] text-slate-500">
               {product.sellerName}
             </span>
           </div>
 
           <h3
             onClick={() => onQuickView(product)}
-            className="text-base font-bold text-white mt-1 hover:text-orange-400 transition-colors line-clamp-1 cursor-pointer"
+            className="text-base font-bold text-slate-900 mt-1 hover:text-orange-600 transition-colors line-clamp-1 cursor-pointer"
           >
             {displayTitle}
           </h3>
 
           <div className="flex items-center gap-1.5 mt-2">
-            <div className="flex items-center text-amber-400">
-              <Star className="w-3.5 h-3.5 fill-amber-400" />
-              <span className="ml-1 text-xs font-bold font-mono">
+            <div className="flex items-center text-amber-500">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span className="ml-1 text-xs font-bold font-mono text-slate-700">
                 {(typeof product.rating === 'number' ? product.rating : 5.0).toFixed(1)}
               </span>
             </div>
-            <span className="text-xs text-slate-400 font-medium">({typeof product.reviewsCount === 'number' ? product.reviewsCount : 1})</span>
+            <span className="text-xs text-slate-500 font-medium">({typeof product.reviewsCount === 'number' ? product.reviewsCount : 1})</span>
           </div>
         </div>
 
         {/* Price & Contact Seller Button */}
-        <div className="space-y-2.5 pt-3 border-t border-slate-700/60">
+        <div className="space-y-2.5 pt-3 border-t border-slate-200">
           <div className="flex items-center justify-between gap-2">
             <div>
-              <div className="text-lg font-extrabold text-white">
-                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-xs font-bold text-orange-400">{getTranslation(lang, 'currencySymbol')}</span>
+              <div className="text-lg font-extrabold text-slate-900">
+                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-xs font-bold text-orange-600">{getTranslation(lang, 'currencySymbol')}</span>
               </div>
               {product.originalPrice && (
                 <div className="text-xs text-slate-400 line-through">
@@ -135,15 +135,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             <button
               onClick={() => onAddToCart(product)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs transition-all cursor-pointer ${
                 isInCart
-                  ? 'bg-sky-500/20 text-sky-300 border border-sky-500/40'
-                  : 'bg-orange-500 hover:bg-orange-400 text-slate-950 shadow-md'
+                  ? 'bg-sky-100 text-sky-700 border border-sky-200'
+                  : 'bg-orange-500 hover:bg-orange-600 text-white shadow-xs'
               }`}
             >
               {isInCart ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-sky-300" />
+                  <Check className="w-3.5 h-3.5 text-sky-600" />
                   <span>{getTranslation(lang, 'inCart')}</span>
                 </>
               ) : (
@@ -158,9 +158,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Contact Seller Button */}
           <button
             onClick={() => onContactSeller(product)}
-            className="w-full py-2 px-3 rounded-xl bg-slate-950 hover:bg-slate-900 text-orange-400 hover:text-orange-300 border border-slate-800 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
+            className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-orange-600 border border-slate-200 font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
-            <PhoneCall className="w-3.5 h-3.5 text-orange-400" />
+            <PhoneCall className="w-3.5 h-3.5 text-orange-500" />
             <span>{getTranslation(lang, 'contactSeller')}</span>
           </button>
 

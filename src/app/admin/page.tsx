@@ -148,9 +148,9 @@ export default function AdminPage() {
 
   const handleToggleBlockSeller = (sellerId: string) => {
     setSellers((prev) => {
-      const updated = prev.map((s) => {
+      const updated: Seller[] = prev.map((s) => {
         if (s.id === sellerId) {
-          const newStatus = s.subscriptionStatus === 'blocked' ? 'active' : 'blocked';
+          const newStatus: Seller['subscriptionStatus'] = s.subscriptionStatus === 'blocked' ? 'active' : 'blocked';
           return { ...s, subscriptionStatus: newStatus };
         }
         return s;
@@ -165,11 +165,11 @@ export default function AdminPage() {
 
   const handleRecordRentPayment = (sellerId: string) => {
     setSellers((prev) => {
-      const updated = prev.map((s) => {
+      const updated: Seller[] = prev.map((s) => {
         if (s.id === sellerId) {
           return {
             ...s,
-            subscriptionStatus: 'active',
+            subscriptionStatus: 'active' as const,
             rentAmount: siteSettings.monthlyRentAmount,
             dueDate: '2026-09-30'
           };
@@ -185,29 +185,29 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-emerald-500 selection:text-slate-950">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-emerald-500 selection:text-white">
       
       {/* Top Header Navigation */}
-      <header className="bg-slate-900 border-b border-slate-800 px-6 py-4">
+      <header className="bg-white border-b border-slate-200 px-6 py-4 shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white transition-colors">
-            <ArrowLeft className="w-4 h-4 text-emerald-400" />
+          <Link href="/" className="flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors">
+            <ArrowLeft className="w-4 h-4 text-emerald-600" />
             <span>ወደ ዋና ገበያ ተመለስ (Back to Market)</span>
           </Link>
 
           <div className="flex items-center gap-3">
             <button
               onClick={() => setLang(lang === 'am' ? 'en' : 'am')}
-              className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold px-3 py-1.5 rounded-full border border-slate-700 transition-colors"
+              className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-full border border-slate-300 transition-colors cursor-pointer"
             >
-              <Globe className="w-3.5 h-3.5 text-emerald-400" />
+              <Globe className="w-3.5 h-3.5 text-emerald-600" />
               <span>{lang === 'am' ? '🇪🇹 አማርኛ' : '🇬🇧 English'}</span>
             </button>
 
             {isAuthenticated && (
               <button
                 onClick={handleAdminLogout}
-                className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold px-3 py-1.5 rounded-full transition-colors cursor-pointer shadow-md"
+                className="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded-full transition-colors cursor-pointer shadow-md"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>ከሴኪዩሪቲ ውጣ (Lock Admin)</span>
@@ -221,23 +221,23 @@ export default function AdminPage() {
       {!isAuthenticated ? (
         <div className="max-w-md mx-auto px-4 py-16 sm:py-24 space-y-6">
           
-          <div className="bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-2xl space-y-6 animate-fadeIn">
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6 animate-fadeIn text-slate-900">
             
             {/* Header Icon */}
             <div className="text-center space-y-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500/20 to-emerald-500/10 border border-indigo-500/30 flex items-center justify-center mx-auto shadow-lg shadow-indigo-500/10">
-                <ShieldCheck className="w-8 h-8 text-indigo-400" />
+              <div className="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center mx-auto shadow-xs">
+                <ShieldCheck className="w-8 h-8 text-indigo-600" />
               </div>
-              <h2 className="text-xl font-black text-white">
+              <h2 className="text-xl font-black text-slate-900">
                 🔐 ምስጢራዊ የአድሚን መግቢያ
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 የቀላል ገበያ ማዕከላዊ መቆጣጠሪያ (Restricted Master Admin System)
               </p>
             </div>
 
             {errorMsg && (
-              <div className="bg-rose-500/10 border border-rose-500/40 p-3.5 rounded-2xl text-xs text-rose-400 font-semibold flex items-center gap-2 animate-fadeIn">
+              <div className="bg-rose-50 border border-rose-200 p-3.5 rounded-2xl text-xs text-rose-600 font-semibold flex items-center gap-2 animate-fadeIn">
                 <AlertOctagon className="w-4 h-4 flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -246,7 +246,7 @@ export default function AdminPage() {
             {/* Login Form */}
             <form onSubmit={handleAdminLogin} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   የአድሚን ኢሜይል (Admin Email)
                 </label>
                 <div className="relative">
@@ -255,15 +255,15 @@ export default function AdminPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@kelalgebeya.com"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600"
                     required
                   />
-                  <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
+                  <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                <label className="block text-xs font-bold text-slate-700 mb-1.5">
                   የአድሚን የይለፍ ቃል (Master Password)
                 </label>
                 <div className="relative">
@@ -272,14 +272,14 @@ export default function AdminPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-10 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-10 py-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-600"
                     required
                   />
-                  <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
+                  <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-3.5 text-slate-500 hover:text-white"
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-700"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -289,7 +289,7 @@ export default function AdminPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 cursor-pointer mt-2"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3 rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-md cursor-pointer mt-2"
               >
                 {isLoading ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

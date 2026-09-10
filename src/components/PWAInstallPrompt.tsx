@@ -76,26 +76,26 @@ export const PWAInstallPrompt: React.FC = () => {
       {/* Install Banner - Bottom of Screen */}
       <div className="fixed bottom-0 left-0 right-0 z-50 animate-slideUp">
         <div className="max-w-lg mx-auto px-4 pb-4">
-          <div className="bg-slate-900/95 backdrop-blur-xl border border-emerald-500/30 rounded-2xl p-4 shadow-2xl shadow-emerald-500/10">
+          <div className="bg-white/95 backdrop-blur-xl border border-emerald-200 rounded-2xl p-4 shadow-xl shadow-slate-300/30">
             
             <div className="flex items-start gap-3">
               {/* App Icon */}
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 flex-shrink-0">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-md shadow-emerald-600/20 flex-shrink-0">
                 <Smartphone className="w-7 h-7 text-white" />
               </div>
 
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-black text-white">
+                <h3 className="text-sm font-black text-slate-900">
                   📲 ቀላል ገበያ App ጫን!
                 </h3>
-                <p className="text-[11px] text-slate-400 mt-0.5">
+                <p className="text-[11px] text-slate-500 mt-0.5">
                   ስልክዎ ላይ እንደ App ይጫኑት — ፈጣን ግብይት ያድርጉ!
                 </p>
 
                 <div className="flex items-center gap-2 mt-3">
                   <button
                     onClick={handleInstallClick}
-                    className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-4 py-2 rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/20 hover:scale-105 active:scale-95"
+                    className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition-all shadow-md shadow-emerald-600/20 hover:scale-105 active:scale-95"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>{isIOS ? 'እንዴት እንደሚጫን ይመልከቱ' : 'አሁን ጫን (Install)'}</span>
@@ -103,7 +103,7 @@ export const PWAInstallPrompt: React.FC = () => {
 
                   <button
                     onClick={() => setShowBanner(false)}
-                    className="text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition-colors"
+                    className="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -117,54 +117,54 @@ export const PWAInstallPrompt: React.FC = () => {
 
       {/* iOS Guide Modal */}
       {showIOSGuide && (
-        <div className="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm flex items-end justify-center animate-fadeIn" onClick={() => setShowIOSGuide(false)}>
+        <div className="fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm flex items-end justify-center animate-fadeIn" onClick={() => setShowIOSGuide(false)}>
           <div 
-            className="bg-slate-900 rounded-t-3xl border-t border-slate-700 p-6 w-full max-w-lg space-y-4 animate-slideUp"
+            className="bg-white rounded-t-3xl border-t border-slate-200 p-6 w-full max-w-lg space-y-4 animate-slideUp shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto" />
+            <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto" />
 
-            <h3 className="text-lg font-black text-white text-center">
+            <h3 className="text-lg font-black text-slate-900 text-center">
               📲 iPhone / iPad ላይ App ጫን
             </h3>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-3 bg-slate-800/60 p-3 rounded-xl">
+              <div className="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <span className="text-lg">1️⃣</span>
                 <div>
-                  <p className="text-xs font-bold text-white">Safari ብራውዘር ይጠቀሙ</p>
-                  <p className="text-[11px] text-slate-400">ይህንን ዌብሳይት Safari ላይ ይክፈቱ</p>
+                  <p className="text-xs font-bold text-slate-900">Safari ብራውዘር ይጠቀሙ</p>
+                  <p className="text-[11px] text-slate-500">ይህንን ዌብሳይት Safari ላይ ይክፈቱ</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-slate-800/60 p-3 rounded-xl">
+              <div className="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <span className="text-lg">2️⃣</span>
                 <div>
-                  <p className="text-xs font-bold text-white">Share ቁልፍ ይጫኑ ⬆️</p>
-                  <p className="text-[11px] text-slate-400">ከታች ያለውን Share (⬆️) ምልክት ይጫኑ</p>
+                  <p className="text-xs font-bold text-slate-900">Share ቁልፍ ይጫኑ ⬆️</p>
+                  <p className="text-[11px] text-slate-500">ከታች ያለውን Share (⬆️) ምልክት ይጫኑ</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-slate-800/60 p-3 rounded-xl">
+              <div className="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <span className="text-lg">3️⃣</span>
                 <div>
-                  <p className="text-xs font-bold text-white">&quot;Add to Home Screen&quot; ይምረጡ</p>
-                  <p className="text-[11px] text-slate-400">ወደ ታች ይሸብልሉ &quot;Add to Home Screen&quot; ይጫኑ</p>
+                  <p className="text-xs font-bold text-slate-900">&quot;Add to Home Screen&quot; ይምረጡ</p>
+                  <p className="text-[11px] text-slate-500">ወደ ታች ይሸብልሉ &quot;Add to Home Screen&quot; ይጫኑ</p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-emerald-500/10 border border-emerald-500/30 p-3 rounded-xl">
+              <div className="flex items-start gap-3 bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
                 <span className="text-lg">✅</span>
                 <div>
-                  <p className="text-xs font-bold text-emerald-400">ቀላል ገበያ App ተጭኗል!</p>
-                  <p className="text-[11px] text-slate-400">ከHome Screen ላይ ሆነው ልክ እንደ App ይጠቀሙ!</p>
+                  <p className="text-xs font-bold text-emerald-800">ቀላል ገበያ App ተጭኗል!</p>
+                  <p className="text-[11px] text-slate-600">ከHome Screen ላይ ሆነው ልክ እንደ App ይጠቀሙ!</p>
                 </div>
               </div>
             </div>
 
             <button
               onClick={() => setShowIOSGuide(false)}
-              className="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs transition-colors"
+              className="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-3 rounded-xl text-xs transition-colors border border-slate-200"
             >
               ገባኝ (Close)
             </button>
