@@ -92,42 +92,42 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Card Details Body */}
-      <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
         <div>
-          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500">
-            <span className="uppercase text-orange-600 font-bold">{product.category}</span>
-            <span className="truncate max-w-[130px] text-[10px] text-slate-500">
+          <div className="flex items-center justify-between text-[10px] sm:text-[11px] font-semibold text-slate-500">
+            <span className="uppercase text-orange-600 font-bold truncate max-w-[80px] sm:max-w-none">{product.category}</span>
+            <span className="truncate max-w-[80px] sm:max-w-[130px] text-[10px] text-slate-500">
               {product.sellerName}
             </span>
           </div>
 
           <h3
             onClick={() => onQuickView(product)}
-            className="text-base font-bold text-slate-900 mt-1 hover:text-orange-600 transition-colors line-clamp-1 cursor-pointer"
+            className="text-xs sm:text-base font-bold text-slate-900 mt-1 hover:text-orange-600 transition-colors line-clamp-1 cursor-pointer"
           >
             {displayTitle}
           </h3>
 
-          <div className="flex items-center gap-1.5 mt-2">
+          <div className="flex items-center gap-1 mt-1.5 sm:mt-2">
             <div className="flex items-center text-amber-500">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span className="ml-1 text-xs font-bold font-mono text-slate-700">
+              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-amber-400 text-amber-400" />
+              <span className="ml-1 text-[11px] sm:text-xs font-bold font-mono text-slate-700">
                 {(typeof product.rating === 'number' ? product.rating : 5.0).toFixed(1)}
               </span>
             </div>
-            <span className="text-xs text-slate-500 font-medium">({typeof product.reviewsCount === 'number' ? product.reviewsCount : 1})</span>
+            <span className="text-[10px] sm:text-xs text-slate-500 font-medium">({typeof product.reviewsCount === 'number' ? product.reviewsCount : 1})</span>
           </div>
         </div>
 
         {/* Price & Contact Seller Button */}
-        <div className="space-y-2.5 pt-3 border-t border-slate-200">
-          <div className="flex items-center justify-between gap-2">
+        <div className="space-y-2 pt-2.5 sm:pt-3 border-t border-slate-200">
+          <div className="flex items-center justify-between gap-1.5 sm:gap-2">
             <div>
-              <div className="text-lg font-extrabold text-slate-900">
-                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-xs font-bold text-orange-600">{getTranslation(lang, 'currencySymbol')}</span>
+              <div className="text-sm sm:text-lg font-extrabold text-slate-900">
+                {(typeof product.price === 'number' ? product.price : 0).toLocaleString()} <span className="text-[10px] sm:text-xs font-bold text-orange-600">{getTranslation(lang, 'currencySymbol')}</span>
               </div>
               {product.originalPrice && (
-                <div className="text-xs text-slate-400 line-through">
+                <div className="text-[10px] sm:text-xs text-slate-400 line-through">
                   {(typeof product.originalPrice === 'number' ? product.originalPrice : 0).toLocaleString()} {getTranslation(lang, 'currencySymbol')}
                 </div>
               )}
@@ -135,7 +135,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             <button
               onClick={() => onAddToCart(product)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs transition-all cursor-pointer ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl font-bold text-[11px] sm:text-xs transition-all cursor-pointer ${
                 isInCart
                   ? 'bg-sky-100 text-sky-700 border border-sky-200'
                   : 'bg-orange-500 hover:bg-orange-600 text-white shadow-xs'
@@ -144,7 +144,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               {isInCart ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-sky-600" />
-                  <span>{getTranslation(lang, 'inCart')}</span>
+                  <span className="hidden xs:inline">{getTranslation(lang, 'inCart')}</span>
                 </>
               ) : (
                 <>
@@ -158,7 +158,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Contact Seller Button */}
           <button
             onClick={() => onContactSeller(product)}
-            className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-orange-600 border border-slate-200 font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="w-full py-1.5 sm:py-2 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-orange-600 border border-slate-200 font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
           >
             <PhoneCall className="w-3.5 h-3.5 text-orange-500" />
             <span>{getTranslation(lang, 'contactSeller')}</span>
