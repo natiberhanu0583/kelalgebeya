@@ -14,6 +14,7 @@ import { Footer } from '../components/Footer';
 import { PWAInstallPrompt } from '../components/PWAInstallPrompt';
 import { AuthModal } from '../components/AuthModal';
 import { AppSplashIntro, AppOutroModal } from '../components/AppSplashIntro';
+import { MobileBottomNav } from '../components/MobileBottomNav';
 
 import { mockProducts, initialSellers } from '../data/mockProducts';
 import { Product, CartItem, CategoryType, EthiopianCityCode, Language, UserRole, Seller, SiteSettings, AdminProfile, ETHIOPIAN_CITIES } from '../types/ecommerce';
@@ -444,7 +445,7 @@ export default function Home() {
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-orange-500 selection:text-white font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-orange-500 selection:text-white font-sans pb-16 md:pb-0 max-w-full overflow-x-hidden">
       
       {/* Animated Brand Splash Intro */}
       <AppSplashIntro />
@@ -674,6 +675,15 @@ export default function Home() {
         onSuccess={handleAuthSuccess}
         sellers={sellers}
         onRegisterSeller={handleRegisterSeller}
+      />
+
+      {/* Native Mobile Bottom Navigation Bar */}
+      <MobileBottomNav
+        activeRole={activeRole}
+        onSelectRole={handleSelectRole}
+        cartCount={totalCartCount}
+        onOpenCart={() => setIsCartOpen(true)}
+        lang={lang}
       />
 
     </div>
