@@ -65,7 +65,9 @@ export const Footer: React.FC = () => {
           {/* Brand Info */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <img src="/logo-full.png" alt="ቀላል ገበያ Kelal Gebeya" className="h-14 w-auto object-contain" />
+              <div className="inline-block p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60">
+                <img src="/logo-full.png" alt="ቀላል ገበያ Kelal Gebeya" className="h-12 w-auto object-contain" />
+              </div>
             </div>
             <p className="text-slate-600 text-xs leading-relaxed max-w-sm">
               Ethiopia&apos;s premiere modern e-commerce marketplace delivering top-tier technology, fashion, home essentials, and authentic local craftsmanship directly to your doorstep.

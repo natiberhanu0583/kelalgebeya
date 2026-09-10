@@ -190,9 +190,14 @@ export default function AdminPage() {
       {/* Top Header Navigation */}
       <header className="bg-white border-b border-slate-200 px-6 py-4 shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors">
-            <ArrowLeft className="w-4 h-4 text-emerald-600" />
-            <span>ወደ ዋና ገበያ ተመለስ (Back to Market)</span>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="px-3 py-1.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_15px_rgba(255,255,255,0.9)] shadow-slate-200/60 group-hover:shadow-md transition-all">
+              <img src="/logo-full.png" alt="Kelal Gebeya Logo" className="h-8 w-auto object-contain" />
+            </div>
+            <span className="flex items-center gap-1.5 text-xs font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
+              <ArrowLeft className="w-4 h-4 text-emerald-600" />
+              <span>ወደ ዋና ገበያ ተመለስ (Back to Market)</span>
+            </span>
           </Link>
 
           <div className="flex items-center gap-3">
@@ -224,9 +229,9 @@ export default function AdminPage() {
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6 animate-fadeIn text-slate-900">
             
             {/* Header Icon */}
-            <div className="text-center space-y-2">
-              <div className="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center mx-auto shadow-xs">
-                <ShieldCheck className="w-8 h-8 text-indigo-600" />
+            <div className="text-center space-y-3">
+              <div className="inline-block p-3.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60 mx-auto">
+                <img src="/logo-full.png" alt="Kelal Gebeya Logo" className="h-12 w-auto object-contain mx-auto" />
               </div>
               <h2 className="text-xl font-black text-slate-900">
                 🔐 ምስጢራዊ የአድሚን መግቢያ

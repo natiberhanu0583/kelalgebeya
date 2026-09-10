@@ -135,18 +135,20 @@ export const Header: React.FC<HeaderProps> = ({
           
           {/* Logo (Compact Icon on Mobile, Full Logo on Desktop) */}
           <div className="flex items-center cursor-pointer group shrink-0" onClick={() => onSelectRole('buyer')}>
-            {/* Desktop Full Logo */}
-            <img
-              src="/logo-full.png"
-              alt="ቀላል ገበያ Kelal Gebeya"
-              className="hidden sm:block h-12 sm:h-14 w-auto object-contain transition-transform group-hover:scale-105"
-            />
-            {/* Mobile Icon-only Logo (Super Sharp & Compact) */}
-            <img
-              src="/logo-icon.png"
-              alt="ቀላል ገበያ Kelal Gebeya"
-              className="block sm:hidden h-9 w-auto object-contain transition-transform group-hover:scale-105"
-            />
+            <div className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60 group-hover:shadow-lg group-hover:shadow-orange-500/25 group-hover:border-orange-200 transition-all duration-300">
+              {/* Desktop Full Logo */}
+              <img
+                src="/logo-full.png"
+                alt="ቀላል ገበያ Kelal Gebeya"
+                className="hidden sm:block h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+              />
+              {/* Mobile Icon-only Logo (Super Sharp & Compact) */}
+              <img
+                src="/logo-icon.png"
+                alt="ቀላል ገበያ Kelal Gebeya"
+                className="block sm:hidden h-8 w-auto object-contain transition-transform group-hover:scale-105"
+              />
+            </div>
           </div>
 
           {/* Search Bar & City Selector (Desktop) */}

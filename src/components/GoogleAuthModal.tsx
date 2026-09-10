@@ -70,13 +70,9 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
         </button>
 
         {/* Modal Header */}
-        <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto shadow-xs">
-            {isSeller ? (
-              <Store className="w-8 h-8 text-emerald-600" />
-            ) : (
-              <ShieldCheck className="w-8 h-8 text-indigo-600" />
-            )}
+        <div className="text-center space-y-3">
+          <div className="inline-block p-3 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60 mx-auto">
+            <img src="/logo-full.png" alt="Kelal Gebeya Logo" className="h-10 w-auto object-contain mx-auto" />
           </div>
           <h2 className="text-xl font-black text-slate-900">
             {lang === 'am' ? 'በ Google አካውንት ይግቡ' : 'Sign in with Google'}

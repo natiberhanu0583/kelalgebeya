@@ -44,9 +44,9 @@ export const AppSplashIntro: React.FC<AppSplashIntroProps> = ({ onComplete }) =>
         
         {/* Animated Brand Logo Container */}
         <div className="relative group">
-          <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-orange-400 via-amber-300 to-sky-400 opacity-40 blur-xl animate-tilt" />
+          <div className="absolute -inset-3 rounded-3xl bg-gradient-to-r from-orange-400 via-amber-300 to-sky-400 opacity-60 blur-2xl animate-tilt" />
           
-          <div className="relative p-6 bg-white rounded-3xl border border-slate-200 shadow-xl backdrop-blur-2xl transform transition-transform duration-700 hover:scale-105">
+          <div className="relative p-6 sm:p-8 bg-white/95 rounded-3xl border border-white shadow-[0_0_30px_rgba(255,255,255,0.9)] shadow-slate-300/80 backdrop-blur-2xl transform transition-transform duration-700 hover:scale-105">
             <img
               src="/logo-full.png"
               alt="ቀላል ገበያ Kelal Gebeya"
@@ -104,11 +104,13 @@ export const AppOutroModal: React.FC<AppOutroModalProps> = ({
           </div>
         </div>
 
-        <img
-          src="/logo-full.png"
-          alt="Kelal Gebeya Logo"
-          className="h-20 w-auto object-contain mx-auto"
-        />
+        <div className="inline-block p-3.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] shadow-slate-200/60 mx-auto">
+          <img
+            src="/logo-full.png"
+            alt="Kelal Gebeya Logo"
+            className="h-16 w-auto object-contain mx-auto"
+          />
+        </div>
 
         <div className="space-y-2">
           <h3 className="text-xl font-black text-slate-900">{titleAm}</h3>
